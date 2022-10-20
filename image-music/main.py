@@ -1,4 +1,5 @@
 from process_image import ProcessImage
+from color_average import ColorAverage
 
 def main():
     process = ProcessImage("data/test-art.jpg")
