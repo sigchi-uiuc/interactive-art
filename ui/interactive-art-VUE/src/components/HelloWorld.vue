@@ -1,7 +1,7 @@
 <template>
   <div class="hello" >
     <div style="position: relative">
-      <img src="@/assets/test-art.jpg" @mousedown="handleClick" @mouseup="handleRelease"/>
+      <img src="@/assets/test-art.jpg" @mousedown.once="start" @mousedown="stop" v-on:mousemove="updateNote">
     </div>
   </div>
 </template>
@@ -15,29 +15,45 @@ export default {
   props: {
     msg: String
   },
+
   data() {
     return {
-      count: 0, coords: json
+      count: 0, coords: json, x: 0, y: 0, started: false
     }
   },
 
   created() {
-    console.log("here")
+    console.log("loaded page")
     this.coords = Object.values(this.coords)
-    this.synth =  new Tone.DuoSynth().toDestination()
   },
 
   methods: {
-    handleClick(event) {
-      var x = event.offsetX
-      var y = event.offsetY
-      var note = this.coords[x][y]
-      console.log(`note ${note}`)
-      console.log(`x: ${x}, y: ${y}`)
-      this.synth.triggerAttack(note, Tone.now())
+    updateNote(event) {
+      if (!this.started) {
+        return
+      }
+
+      this.x = event.offsetX
+      this.y = event.offsetY 
+      var note = this.coords[this.x][this.y]
+     
+      if ((this.note) && (note != this.note)) {
+        this.synth.triggerRelease(Tone.now())
+      }
+
+      this.note = note
+      this.synth.triggerAttack(this.note, Tone.now())
+      console.log(`note playing: ${this.note}`)
     },
-    handleRelease() {
-      console.log("click up")
+
+    start() {
+      Tone.start()
+      this.synth =  new Tone.DuoSynth().toDestination()
+      this.started = true
+      console.log('audio is ready')
+    },
+
+    stop() {
       this.synth.triggerRelease(Tone.now())
     }
   }
