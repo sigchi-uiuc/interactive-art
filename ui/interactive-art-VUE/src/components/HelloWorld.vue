@@ -8,7 +8,7 @@
 
 <script>
 import * as Tone from 'tone'
-import json from '@/assets/sample.json'
+import json from '@/assets/test-art.json'
 
 export default {
   name: 'HelloWorld',
@@ -24,19 +24,16 @@ export default {
   created() {
     console.log("here")
     this.coords = Object.values(this.coords)
-    this.synth =  new Tone.Synth().toDestination()
+    this.synth =  new Tone.DuoSynth().toDestination()
   },
 
   methods: {
     handleClick(event) {
       var x = event.offsetX
       var y = event.offsetY
+      var note = this.coords[x][y]
+      console.log(`note ${note}`)
       console.log(`x: ${x}, y: ${y}`)
-      console.log(`image ${this.coords[x][y]}`)
-      var note = "C4"
-      if (x<=700) {
-        note = "F4"
-      }
       this.synth.triggerAttack(note, Tone.now())
     },
     handleRelease() {
