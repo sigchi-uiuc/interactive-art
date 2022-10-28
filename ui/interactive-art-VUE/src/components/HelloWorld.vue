@@ -1,7 +1,7 @@
 <template>
   <div class="hello" >
     <div style="position: relative">
-      <img src="@/assets/test-art.jpg" @mousedown.once="start" @mousedown="stop" v-on:mousemove="updateNote">
+      <img src="@/assets/test-art.jpg" @mousedown.once="start" @mouseleave="stop" v-on:mousemove="updateNote">
     </div>
   </div>
 </template>
