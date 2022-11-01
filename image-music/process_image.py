@@ -1,10 +1,14 @@
 from PIL import Image
 import math
 import numpy as np
+from extract_color import ExtractColor
+from color_to_music import Color2Music
+import os
 
 class ProcessImage:
-    def __init__(self, f_name):
-        self.image = Image.open(f_name)
+    def __init__(self, f_name, data_dir):
+        self.data_dir = data_dir
+        self.image = Image.open(os.path.join(data_dir, f_name))
         self.size = self.image.size
         self.x, self.y = self.size
 
@@ -13,27 +17,37 @@ class ProcessImage:
         width = int(math.ceil(self.x / cols))
         height = int(math.ceil(self.y / rows))
 
-        coord_map = np.ones(self.size, dtype=int) * -1
+        note_coord = np.ones(self.size, dtype=object) * -1
         images = []
         for x in range(0, self.x - cols, width):
             for y in range(0, self.y - rows, height):
-                # crop image
+                # crop image section
                 area = (x, y, x+width, y+height)
                 image_section = self.image.crop(area)
-
-                # map image location to section
                 images.append(image_section)
                 i = len(images) - 1
-                coord_map[x:x+width, y:y+height] = i
 
-        if -1 in np.unique(coord_map):
-            print(coord_map)
+                # get dominant color
+                extract = ExtractColor(image_section, i, self.data_dir)
+                dominant_color = extract.get_dominant()
+                print(dominant_color)
+
+                # get music note from dominant color
+                music = Color2Music(dominant_color)
+                note = music.get_note()
+                print(note)
+
+                # map image location to note
+                note_coord[x:x+width, y:y+height] = note
+
+        if -1 in np.unique(note_coord):
+            print(note_coord)
             print("image size", self.size)
             print("num cols", cols, "num rows", rows)
             print("section width", width, "section height", height)
             raise Exception("Not all image area was initialized")
 
-        return coord_map, images
+        return note_coord, images
     
     def _get_num_rows_cols(self, num_sections):
         cols = int(math.ceil(math.sqrt(num_sections)))
