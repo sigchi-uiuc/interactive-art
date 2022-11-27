@@ -1,9 +1,11 @@
 <template>
-  <div class="hello" >
-    <div style="position: relative">
-      <img src="@/assets/test-art.jpg" @mousedown.once="start" @mouseleave="stop" v-on:mousemove="updateNote">
-    </div>
-  </div>
+  <img 
+    ref="art"
+    class="image-container"
+    :src="require(`@/assets/${image}`)" 
+    @mousedown.once="start" 
+    @mouseleave="stop" 
+    v-on:mousemove="updateNote">
 </template>
 
 <script>
@@ -11,20 +13,28 @@ import * as Tone from 'tone'
 import json from '@/assets/test-art.json'
 
 export default {
-  name: 'HelloWorld',
+  name: 'Art',
   props: {
-    msg: String
+    image: String
   },
 
   data() {
     return {
-      count: 0, coords: json, x: 0, y: 0, started: false
+      coords: json, 
+      x: 0, 
+      y: 0, 
+      started: false,
+      width: 0,
+      height: 0
     }
   },
 
   created() {
-    console.log("loaded page")
     this.coords = Object.values(this.coords)
+      window.addEventListener('load', () => {
+        this.height = this.$refs.art.clientHeight
+        this.width = this.$refs.art.clientWidth
+      })
   },
 
   methods: {
@@ -62,18 +72,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.image-container {
+  height: 100%
 }
 </style>
