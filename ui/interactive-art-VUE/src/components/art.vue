@@ -11,6 +11,7 @@
 <script>
 import * as Tone from 'tone'
 import json from '@/assets/test-art.json'
+import axios from 'axios'
 
 export default {
   name: 'Art',
@@ -34,10 +35,15 @@ export default {
       window.addEventListener('load', () => {
         this.height = this.$refs.art.clientHeight
         this.width = this.$refs.art.clientWidth
+        this.get_pixel_coords()
       })
   },
 
   methods: {
+    async get_pixel_coords() {
+      axios.get(`api/coords/${this.image}/${this.width}/${this.height}`)
+      .then(response => (console.log(response)))
+    },
     updateNote(event) {
       if (!this.started) {
         return
