@@ -29,9 +29,7 @@ export default {
 
   data() {
     return {
-      notes: undefined, 
-      x: 0, 
-      y: 0, 
+      notes: undefined,
       loading: true,
       started: false,
       image_width: 0,
@@ -60,44 +58,36 @@ export default {
     },
 
     updateNote(event) {
-      console.log(this.notes[0][0])
-      // if (!this.started) {
-      //   return
-      // }
+      if (!this.started) {
+        return
+      }
 
-      // this.x = event.offsetX
-      // this.y = event.offsetY 
-      // var note = this.coords[this.x][this.y]
+      var x = event.offsetX
+      var y = event.offsetY 
+      var note = this.notes[x][y]
      
-      // if ((this.note) && (note != this.note)) {
-      //   this.synth.triggerRelease(Tone.now())
-      // }
+      if ((this.note) && (note != this.note)) {
+        this.synth.triggerRelease(Tone.now())
+      }
 
-      // this.note = note
-      // this.synth.triggerAttack(this.note, Tone.now())
-      // console.log(`note playing: ${this.note}`)
+      this.note = note
+      this.synth.triggerAttack(this.note, Tone.now())
+      console.log(`note playing: ${this.note}`)
     },
 
     start() {
-      // Tone.start()
-      // this.synth =  new Tone.DuoSynth().toDestination()
-      // this.started = true
-      // console.log('audio is ready')
+      Tone.start()
+      this.synth =  new Tone.DuoSynth().toDestination()
+      this.started = true
+      console.log('audio is ready')
     },
 
     stop() {
-      // this.synth.triggerRelease(Tone.now())
-    },
-    doAjax() {
-                this.isLoading = true;
-                // simulate AJAX
-                setTimeout(() => {
-                    this.isLoading = false
-                }, 5000)
-            },
-            onCancel() {
-                console.log('User cancelled the loader.')
-            }
+      if (!this.started) {
+        return
+      }
+      this.synth.triggerRelease(Tone.now())
+    }
   }
 }
 </script>

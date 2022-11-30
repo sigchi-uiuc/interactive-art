@@ -39,7 +39,7 @@ class ProcessImage:
                 i = len(images) - 1
 
                 # get dominant color
-                extract = ExtractColor(image_section, i, self.data_dir)
+                extract = ExtractColor(image_section)
                 dominant_color = extract.get_dominant()
 
                 # get music note from dominant color
