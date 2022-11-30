@@ -1,14 +1,19 @@
 <template>
-  <div class="vl-parent">
-    <loading v-model:active="loading"
-             :is-full-page="true"/>
+  <div class="container">
+    <div class="vl-parent">
+      <loading v-model:active="loading"
+              :is-full-page="true"/>
+    </div>
+    <img 
+      :style="[!music_started ? {opacity: 0.6} : {opacity: 1}]"
+      ref="art"
+      class="image-container"
+      :src="require(`@/assets/${image}`)" 
+      v-on:mousemove="updateNote">
+    <button v-if="!music_started" class="btn" @click="start">
+      Start
+    </button>
   </div>
-  <img 
-    ref="art"
-    class="image-container"
-    :src="require(`@/assets/${image}`)" 
-    @mousedown.once="start" 
-    v-on:mousemove="updateNote">
 </template>
 
 <script>
@@ -29,11 +34,9 @@ export default {
   data() {
     return {
       notes: undefined,
-      loading: true,
-      started: false,
-      image_width: 0,
-      image_height: 0,
-      time_delay: 1000
+      loading: false,
+      music_started: false,
+      time_delay: 800
     }
   },
 
@@ -41,54 +44,73 @@ export default {
       window.addEventListener('load', () => {
         this.image_height = this.$refs.art.clientHeight
         this.image_width = this.$refs.art.clientWidth
-        this.get_pixel_coords()
       })
   },
 
   methods: {
-    async get_pixel_coords() {
+    load_notes_audio() {
       console.log("getting notes from backend")
       axios.get(`api/coords/${this.image}/${this.image_width}/${this.image_height}`)
       .then(response => (this.notes = response.data.notes))
       .finally(() => {
        console.log("notes loaded from backend")
        console.log(`note array num rows: ${this.notes.length}, cols: ${this.notes[0].length}`)
-       this.loading = false;
+       this.synth = new PianoMp3({
+              onload: () => {
+                console.log("audio samples loaded")
+                this.loading = false
+                this.music_started = true
+              }
+          }).toDestination()
       });
     },
 
     updateNote(event) {
-      if (!this.started) {
+      if (!this.music_started || this.loading) {
         return 
       }
 
-      if (new Date() - this.start > this.time_delay) {
+      if ((!this.start_time) || (new Date() - this.start_time > this.time_delay)) {
         var x = event.offsetX
         var y = event.offsetY 
         var note = this.notes[x][y]
 
         this.synth.triggerAttack(note)
-        console.log(`note playing: ${this.note}`)
-        this.start = new Date()
+        console.log(`note playing: ${note}`)
+        this.start_time = new Date()
       }
     },
 
     start() {      
-      this.synth = new PianoMp3({
-              onload: () => {
-              this.started = true
-              this.start = new Date()
-              console.log("audio ready")
-            }
-          }).toDestination()
+      this.loading = true
+      this.load_notes_audio()
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .image-container {
   height: 100%;
 }
+
+.container {
+  position: relative;
+}
+
+.btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #555;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
 </style>
