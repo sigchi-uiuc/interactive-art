@@ -11,6 +11,7 @@
     "core-js": "^3.8.3",
     "tone": "^14.7.77",
     "vue": "^3.2.13",
+    "vue-loading-overlay": "6.0",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {

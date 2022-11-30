@@ -1,4 +1,8 @@
 <template>
+  <div class="vl-parent">
+    <loading v-model:active="loading"
+             :is-full-page="true"/>
+  </div>
   <img 
     ref="art"
     class="image-container"
@@ -10,10 +14,15 @@
 
 <script>
 import * as Tone from 'tone'
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
 import axios from 'axios'
 
 export default {
   name: 'Art',
+  components: {
+    Loading
+  },
   props: {
     image: String
   },
@@ -78,7 +87,17 @@ export default {
 
     stop() {
       // this.synth.triggerRelease(Tone.now())
-    }
+    },
+    doAjax() {
+                this.isLoading = true;
+                // simulate AJAX
+                setTimeout(() => {
+                    this.isLoading = false
+                }, 5000)
+            },
+            onCancel() {
+                console.log('User cancelled the loader.')
+            }
   }
 }
 </script>
