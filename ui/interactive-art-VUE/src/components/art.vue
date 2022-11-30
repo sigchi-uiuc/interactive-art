@@ -14,9 +14,11 @@
 
 <script>
 import * as Tone from 'tone'
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/css/index.css';
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/css/index.css'
 import axios from 'axios'
+import PianoMp3 from 'tonejs-instrument-piano-mp3'
+import {FluteMp3, FluteOgg, FluteWav} from 'tonejs-instrument-flute';
 
 export default {
   name: 'Art',
@@ -67,26 +69,29 @@ export default {
       var note = this.notes[x][y]
      
       if ((this.note) && (note != this.note)) {
-        this.synth.triggerRelease(Tone.now())
+        this.synth.triggerAttack(this.note)
+      } else {
+        this.synth.triggerRelease(this.note)
       }
 
       this.note = note
-      this.synth.triggerAttack(this.note, Tone.now())
       console.log(`note playing: ${this.note}`)
     },
 
-    start() {
-      Tone.start()
-      this.synth =  new Tone.DuoSynth().toDestination()
-      this.started = true
-      console.log('audio is ready')
+    start() {      
+      this.synth = new PianoMp3({
+              onload: () => {
+              this.started = true
+              console.log("audio ready")
+            }
+          }).toDestination()
     },
 
     stop() {
       if (!this.started) {
         return
       }
-      this.synth.triggerRelease(Tone.now())
+      this.synth.triggerRelease()
     }
   }
 }
