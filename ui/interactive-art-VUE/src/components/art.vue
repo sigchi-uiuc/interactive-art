@@ -8,17 +8,14 @@
     class="image-container"
     :src="require(`@/assets/${image}`)" 
     @mousedown.once="start" 
-    @mouseleave="stop" 
     v-on:mousemove="updateNote">
 </template>
 
 <script>
-import * as Tone from 'tone'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
 import axios from 'axios'
 import PianoMp3 from 'tonejs-instrument-piano-mp3'
-import {FluteMp3, FluteOgg, FluteWav} from 'tonejs-instrument-flute';
 
 export default {
   name: 'Art',
@@ -35,7 +32,8 @@ export default {
       loading: true,
       started: false,
       image_width: 0,
-      image_height: 0
+      image_height: 0,
+      time_delay: 1000
     }
   },
 
@@ -61,37 +59,28 @@ export default {
 
     updateNote(event) {
       if (!this.started) {
-        return
+        return 
       }
 
-      var x = event.offsetX
-      var y = event.offsetY 
-      var note = this.notes[x][y]
-     
-      if ((this.note) && (note != this.note)) {
-        this.synth.triggerAttack(this.note)
-      } else {
-        this.synth.triggerRelease(this.note)
-      }
+      if (new Date() - this.start > this.time_delay) {
+        var x = event.offsetX
+        var y = event.offsetY 
+        var note = this.notes[x][y]
 
-      this.note = note
-      console.log(`note playing: ${this.note}`)
+        this.synth.triggerAttack(note)
+        console.log(`note playing: ${this.note}`)
+        this.start = new Date()
+      }
     },
 
     start() {      
       this.synth = new PianoMp3({
               onload: () => {
               this.started = true
+              this.start = new Date()
               console.log("audio ready")
             }
           }).toDestination()
-    },
-
-    stop() {
-      if (!this.started) {
-        return
-      }
-      this.synth.triggerRelease()
     }
   }
 }
