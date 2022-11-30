@@ -17,7 +17,8 @@ def get_notes(image, width, height):
     
     coords, images = process.divide_image()
 
-    response = json.dumps(coords.tolist())
+    response = {"notes": coords.tolist()}
+    # response = json.dumps(coords.tolist())
     return response, 200
 
 if __name__ == '__main__':

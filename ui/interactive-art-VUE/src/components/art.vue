@@ -10,7 +10,6 @@
 
 <script>
 import * as Tone from 'tone'
-import json from '@/assets/test-art.json'
 import axios from 'axios'
 
 export default {
@@ -21,56 +20,64 @@ export default {
 
   data() {
     return {
-      coords: json, 
+      notes: undefined, 
       x: 0, 
       y: 0, 
+      loading: true,
       started: false,
-      width: 0,
-      height: 0
+      image_width: 0,
+      image_height: 0
     }
   },
 
   created() {
-    this.coords = Object.values(this.coords)
       window.addEventListener('load', () => {
-        this.height = this.$refs.art.clientHeight
-        this.width = this.$refs.art.clientWidth
+        this.image_height = this.$refs.art.clientHeight
+        this.image_width = this.$refs.art.clientWidth
         this.get_pixel_coords()
       })
   },
 
   methods: {
     async get_pixel_coords() {
-      axios.get(`api/coords/${this.image}/${this.width}/${this.height}`)
-      .then(response => (console.log(response)))
+      console.log("getting notes from backend")
+      axios.get(`api/coords/${this.image}/${this.image_width}/${this.image_height}`)
+      .then(response => (this.notes = response.data.notes))
+      .finally(() => {
+       console.log("notes loaded from backend")
+       console.log(`note array num rows: ${this.notes.length}, cols: ${this.notes[0].length}`)
+       this.loading = false;
+      });
     },
+
     updateNote(event) {
-      if (!this.started) {
-        return
-      }
+      console.log(this.notes[0][0])
+      // if (!this.started) {
+      //   return
+      // }
 
-      this.x = event.offsetX
-      this.y = event.offsetY 
-      var note = this.coords[this.x][this.y]
+      // this.x = event.offsetX
+      // this.y = event.offsetY 
+      // var note = this.coords[this.x][this.y]
      
-      if ((this.note) && (note != this.note)) {
-        this.synth.triggerRelease(Tone.now())
-      }
+      // if ((this.note) && (note != this.note)) {
+      //   this.synth.triggerRelease(Tone.now())
+      // }
 
-      this.note = note
-      this.synth.triggerAttack(this.note, Tone.now())
-      console.log(`note playing: ${this.note}`)
+      // this.note = note
+      // this.synth.triggerAttack(this.note, Tone.now())
+      // console.log(`note playing: ${this.note}`)
     },
 
     start() {
-      Tone.start()
-      this.synth =  new Tone.DuoSynth().toDestination()
-      this.started = true
-      console.log('audio is ready')
+      // Tone.start()
+      // this.synth =  new Tone.DuoSynth().toDestination()
+      // this.started = true
+      // console.log('audio is ready')
     },
 
     stop() {
-      this.synth.triggerRelease(Tone.now())
+      // this.synth.triggerRelease(Tone.now())
     }
   }
 }
