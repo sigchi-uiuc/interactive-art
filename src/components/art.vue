@@ -5,15 +5,16 @@
               :is-full-page="true"/>
     </div>
     <img 
+      class="image-container"
       :style="[!music_started ? {opacity: 0.6} : {opacity: 1}]"
       ref="art"
-      class="image-container"
       :src="require(`@/assets/${image}`)" 
       v-on:mousemove="updateNote">
     <button v-if="!music_started" class="btn" @click="start">
       Start
     </button>
   </div>
+  
 </template>
 
 <script>
@@ -76,7 +77,7 @@ export default {
         var note = this.notes[x][y]
 
         this.synth.triggerAttack(note)
-        console.log(`note playing: ${note}`)
+        console.log(`note playing: ${note} for x: ${x}, y: ${y}`)
         this.start_time = new Date()
       }
     },
@@ -90,8 +91,20 @@ export default {
 </script>
 
 <style scoped>
+
 .image-container {
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  overflow: auto;
+  position: fixed;
+  right: 0;
+  top: 0;
+  -o-object-fit: contain;
+  object-fit: contain;
 }
 
 .container {
@@ -99,11 +112,7 @@ export default {
 }
 
 .btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
+  
   background-color: #555;
   color: white;
   font-size: 16px;
@@ -111,6 +120,16 @@ export default {
   border: none;
   cursor: pointer;
   border-radius: 5px;
+
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  overflow: auto;
+  position: fixed;
+  right: 0;
+  top: 0;
+
+  height: 40px;
 }
 
 </style>
