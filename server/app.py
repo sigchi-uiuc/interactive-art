@@ -9,7 +9,7 @@ data_dir = "../src/assets"
 
 @app.route("/")
 def index():
-    return send_from_directory(app.static_folder, 'index.html')
+    return "test"
 
 @app.route('/api/coords/<image>/<int:width>/<int:height>/', methods=['GET'])
 def get_notes(image, width, height):
