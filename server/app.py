@@ -13,7 +13,7 @@ def index():
 
 @app.route("/api/")
 def api():
-    return "interactive-art api"
+    return "interactive-art api", 200
 
 @app.route('/api/coords/<image>/<int:width>/<int:height>/', methods=['GET'])
 def get_notes(image, width, height):
