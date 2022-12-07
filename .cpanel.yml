@@ -5,4 +5,4 @@ deployment:
     - /bin/cp -R src/assets /home/interactiveart/src/
     - /bin/cp -R server/* /home/interactiveart/server/
     - /bin/cp requirements.txt /home/interactiveart/server/
-    - /bin/touch server/tmp/restart.txt
+    - /bin/touch /home/interactiveart/server/tmp/restart.txt
