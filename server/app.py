@@ -7,9 +7,13 @@ app = Flask(__name__,static_folder="../dist/",static_url_path='')
 CORS(app)
 data_dir = "../src/assets"
 
-@app.route("/")
-def index():
-    return send_from_directory(app.static_folder, 'index.html')
+# @app.route("/")
+# def index():
+#     return send_from_directory(app.static_folder, 'index.html')
+
+@app.route("/api/")
+def api():
+    return "interactive-art api"
 
 @app.route('/api/coords/<image>/<int:width>/<int:height>/', methods=['GET'])
 def get_notes(image, width, height):
