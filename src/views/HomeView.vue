@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Art image='joy.jpg'/>
+    <Art image='park.jpg'/>
   </div>
 </template>
 

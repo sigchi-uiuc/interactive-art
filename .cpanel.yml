@@ -1,0 +1,8 @@
+---
+deployment:
+  tasks:
+    - /bin/cp -R dist /home/interactiveart/
+    - /bin/cp -R src/assets /home/interactiveart/src/
+    - /bin/cp -R server/* /home/interactiveart/server/
+    - /bin/cp requirements.txt /home/interactiveart/server/
+    - /bin/touch /home/interactiveart/server/tmp/restart.txt

@@ -1,19 +1,25 @@
-# interactive-art-ui
+# interactive-art
 
-## Project setup
+## Development
+
+### Install node packages
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Run UI on `http://localhost:8080/`
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Run Backend from `http://localhost:4000/`
 ```
-npm run build
+cd server
+python app.py
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Putting Changes Into Production
+- `npm run build`
+- Then commit and push your changes (including the `dist` folder)
+- submit a pull request to the main brain
+- To make changes live at `https://interactiveart.web.illinois.edu` those with cPanel access need to follow [these steps](docs/cpanel.md)
