@@ -9,9 +9,4 @@
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
-  RewriteRule ^(.*)$ /api/$1 [L]
-</IfModule>
-
-<IfModule !mod_rewrite.c>
-    ErrorDocument 404 /index.html
 </IfModule>
