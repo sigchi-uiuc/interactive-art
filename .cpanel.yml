@@ -3,6 +3,6 @@ deployment:
   tasks:
     - /bin/cp -R dist/* /home/interactiveart/public_html
     - /bin/cp -R src/assets /home/interactiveart/src/
-    - /bin/cp -R api/* /home/interactiveart/api/
-    - /bin/cp requirements.txt /home/interactiveart/api/
-    - /bin/touch /home/interactiveart/api/tmp/restart.txt
+    - /bin/cp -R api/* /home/interactiveart/server/
+    - /bin/cp requirements.txt /home/interactiveart/server/
+    - /bin/touch /home/interactiveart/server/tmp/restart.txt
