@@ -22,6 +22,7 @@ import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
 import axios from 'axios'
 import PianoMp3 from 'tonejs-instrument-piano-mp3'
+const BASE_URL = "https://backend.interactiveart.web.illinois.edu"
 
 export default {
   name: 'Art',
@@ -37,7 +38,8 @@ export default {
       notes: undefined,
       loading: false,
       music_started: false,
-      time_delay: 800
+      time_delay: 800,
+      base_url: BASE_URL
     }
   },
 
@@ -46,12 +48,21 @@ export default {
         this.image_height = this.$refs.art.clientHeight
         this.image_width = this.$refs.art.clientWidth
       })
+
+      // check if application is in local mode
+      var env_url = process.env.VUE_APP_BASE_URL
+      if (env_url) {
+        this.base_url = env_url
+      }
   },
 
   methods: {
     load_notes_audio() {
       console.log("getting notes from backend")
-      axios.get(`api/coords/${this.image}/${this.image_width}/${this.image_height}`)
+
+      var request_url = `/coords/${this.image}/${this.image_width}/${this.image_height}`
+
+      axios({method: 'get', url: request_url, baseURL: this.base_url})
       .then(response => (this.notes = response.data.notes))
       .finally(() => {
        console.log("notes loaded from backend")
