@@ -2,22 +2,17 @@ from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 from process_image import ProcessImage
 import time
-import dotenv
-import os
 
-dotenv.load_dotenv()
-
-SUBDOMAIN = os.getenv("SUBDOMAIN")
 data_dir = "../src/assets"
 
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/", subdomain=SUBDOMAIN)
+@app.route("/")
 def api():
     return "interactive-art api", 200
 
-@app.route('/coords/<image>/<int:width>/<int:height>/', subdomain=SUBDOMAIN)
+@app.route('/coords/<image>/<int:width>/<int:height>/')
 def get_notes(image, width, height):
     start = time.time()
 
@@ -34,7 +29,5 @@ def get_notes(image, width, height):
     return jsonify(response), 200
 
 if __name__ == '__main__':
-    if SUBDOMAIN:
-        app.config['SERVER_NAME']='localhost:5000'
-
-    app.run()
+    port_num = 5000
+    app.run(host='localhost', port=port_num, debug=True)

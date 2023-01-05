@@ -22,7 +22,7 @@ import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
 import axios from 'axios'
 import PianoMp3 from 'tonejs-instrument-piano-mp3'
-const BASE_URL = "https://backend.interactiveart.web.illinois.edu"
+const BASE_URL = process.env.VUE_APP_BASE_URL
 
 export default {
   name: 'Art',
@@ -39,7 +39,7 @@ export default {
       loading: false,
       music_started: false,
       time_delay: 800,
-      base_url: BASE_URL
+      base_url: ""
     }
   },
 
@@ -49,24 +49,25 @@ export default {
         this.image_width = this.$refs.art.clientWidth
       })
 
-      // check if application is in local mode
-      var env_url = process.env.VUE_APP_BASE_URL
-      if (env_url) {
-        this.base_url = env_url
+      if (!location.toString().includes("localhost")) {
+        this.base_url = BASE_URL
       }
   },
 
   methods: {
     load_notes_audio() {
-      console.log("getting notes from backend")
-      console.log(`base url: ${this.base_url}`)
+      var request_url = `${this.base_url}/coords/${this.image}/${this.image_width}/${this.image_height}`
+      console.log(`getting notes from backend at ${request_url}`)
 
-      var request_url = `/coords/${this.image}/${this.image_width}/${this.image_height}`
-
-      axios({method: 'get', url: request_url, baseURL: this.base_url})
-      .then(response => (this.notes = response.data.notes))
+      axios.get(request_url)
+      .then(response => {
+        this.notes = response.data.notes
+        console.log("notes loaded from backend")
+      })
+      .catch(error => {
+        console.log(`failed getting notes from backend: ${error}`)
+      })
       .finally(() => {
-       console.log("notes loaded from backend")
        console.log(`note array num rows: ${this.notes.length}, cols: ${this.notes[0].length}`)
        this.synth = new PianoMp3({
               onload: () => {
@@ -75,7 +76,7 @@ export default {
                 this.music_started = true
               }
           }).toDestination()
-      });
+      })
     },
 
     updateNote(event) {
