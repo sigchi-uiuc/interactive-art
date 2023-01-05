@@ -59,6 +59,7 @@ export default {
   methods: {
     load_notes_audio() {
       console.log("getting notes from backend")
+      console.log(`base url: ${this.base_url}`)
 
       var request_url = `/coords/${this.image}/${this.image_width}/${this.image_height}`
 
