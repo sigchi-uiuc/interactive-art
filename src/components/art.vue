@@ -35,7 +35,7 @@ export default {
 
   data() {
     return {
-      notes: undefined,
+      image_info: undefined,
       loading: false,
       music_started: false,
       time_delay: 800,
@@ -61,14 +61,14 @@ export default {
 
       axios.get(request_url)
       .then(response => {
-        this.notes = response.data.notes
+        this.image_info = response.data
         console.log("notes loaded from backend")
       })
       .catch(error => {
         console.log(`failed getting notes from backend: ${error}`)
       })
       .finally(() => {
-       console.log(`note array num rows: ${this.notes.length}, cols: ${this.notes[0].length}`)
+       console.log(`number of sections: ${this.image_info.length}`)
        this.synth = new PianoMp3({
               onload: () => {
                 console.log("audio samples loaded")
@@ -87,7 +87,7 @@ export default {
       if ((!this.start_time) || (new Date() - this.start_time > this.time_delay)) {
         var x = event.offsetX
         var y = event.offsetY 
-        var note = this.notes[x][y]
+        var note = this.get_note(x, y)
 
         this.synth.triggerAttack(note)
         console.log(`note playing: ${note} for x: ${x}, y: ${y}`)
@@ -98,6 +98,20 @@ export default {
     start() {      
       this.loading = true
       this.load_notes_audio()
+    },
+
+    get_note(x, y) {
+      var get_section = function(section) {
+        var start_x = section.area[0]
+        var start_y = section.area[1]
+        var end_x = section.area[2]
+        var end_y = section.area[3]
+  
+        return x >= start_x && y >= start_y && x <= end_x && y <= end_y
+      }
+      var section = this.image_info.filter(get_section)
+      // console.log(`image section: ${[...section[0].area]}`)
+      return section[0].note
     }
   }
 }
