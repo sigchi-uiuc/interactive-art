@@ -24,41 +24,52 @@ class ProcessImage:
     def divide_image(self, num_sections=8):
         print(f"splitting into {num_sections}")
 
-        cols, rows = self._get_num_rows_cols(num_sections)
-        width = int(math.ceil(self.x / cols))
-        height = int(math.ceil(self.y / rows))
+        split = SplitImage(self.size, num_sections)
+        chunk_gen = split.get_chunks()
 
         note_coord = np.ones(self.size, dtype=object) * -1
         images = []
-        for x in range(0, self.x - cols, width):
-            for y in range(0, self.y - rows, height):
-                # crop image section
-                area = (x, y, x+width, y+height)
-                image_section = self.image.crop(area)
-                images.append(image_section)
-                i = len(images) - 1
+        for chunk in chunk_gen:
+            image_section = self.image.crop(chunk)
+            images.append(image_section)
+            i = len(images) - 1
 
-                # get dominant color
-                extract = ExtractColor(image_section)
-                dominant_color = extract.get_dominant()
+             # get dominant color
+            extract = ExtractColor(image_section)
+            dominant_color = extract.get_dominant()
 
-                # get music note from dominant color
-                music = Color2Music(dominant_color)
-                note = music.get_note()
+            # get music note from dominant color
+            music = Color2Music(dominant_color)
+            note = music.get_note()
 
-                print(f'section: {i}, dominant color: {dominant_color}, note: {note}')
+            print(f'section: {i}, dominant color: {dominant_color}, note: {note}')
 
-                # map image location to note
-                note_coord[x:x+width, y:y+height] = note
+            # map image location to note
+            note_coord[chunk[0]:chunk[2], chunk[1]:chunk[3]] = note
 
         if -1 in np.unique(note_coord):
             print(note_coord)
             print("image size", self.size)
-            print("num cols", cols, "num rows", rows)
-            print("section width", width, "section height", height)
             raise Exception("Not all image area was initialized")
 
         return note_coord, images
+
+class SplitImage:
+    def __init__(self, img_size, num_sections):
+        self.img_width = img_size[0]
+        self.img_height = img_size[1]
+
+        self.cols, self.rows = self._get_num_rows_cols(num_sections)
+
+        self.width = int(math.ceil(self.img_width / self.cols))
+        self.height = int(math.ceil(self.img_height / self.rows))
+
+    # iterates over split image in row then column order
+    def get_chunks(self):
+        for x in range(0, self.img_width - self.cols, self.width):
+            for y in range(0, self.img_height - self.rows, self.height):
+                area = (x, y, x+self.width, y+self.height)
+                yield area
     
     def _get_num_rows_cols(self, num_sections):
         cols = int(math.ceil(math.sqrt(num_sections)))
