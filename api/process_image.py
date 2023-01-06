@@ -1,4 +1,7 @@
 import math
+from PIL import Image
+from extract_color import ExtractColor
+from color_to_music import Color2Music
 
 class SplitImage:
     def __init__(self, img_size, num_sections):
@@ -21,3 +24,24 @@ class SplitImage:
         cols = int(math.ceil(math.sqrt(num_sections)))
         rows = int(math.ceil(num_sections / float(cols)))
         return (cols, rows)
+
+def get_notes_colors(img_path, num_split):
+    img = Image.open(img_path)
+    split = SplitImage(img.size, num_split)
+
+    colors = []
+    notes = []
+    for chunk in split.get_chunks():
+        image_section = img.crop(chunk)
+
+        ext_color = ExtractColor(image_section)
+        color = ext_color.get_dominant()
+
+        color_music = Color2Music(color)
+        note = color_music.get_note()
+
+        colors.append(color)
+        notes.append(note)
+    
+    return colors, notes
+        
