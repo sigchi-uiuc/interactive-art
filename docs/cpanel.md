@@ -13,7 +13,7 @@
     - This follows the commands in the `.cpanel.yml` file, which just copies the files from the repo to its appropriate place and restarts the server
 
 ## Installing New Python Packages
-If any new python packages were installed take the following steps
+If there are any new Python dependencies take the following steps
 - Go to the python app
 
     ![](python.PNG)
@@ -26,3 +26,9 @@ If any new python packages were installed take the following steps
 - Finally click `Restart`
 
     ![](restart.PNG)
+
+## Clearing Cache
+If major changes were made to the backend we want to clear the cache because the precomputed results will be inconsistent. To do so:
+- Type in `clear_cache.py` in the execute python script section of the python app then click `Run Script`
+
+    ![](clear.PNG)
