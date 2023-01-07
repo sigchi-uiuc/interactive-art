@@ -70,6 +70,7 @@ export default {
       .finally(() => {
        console.log(`number of sections: ${this.image_info.length}`)
        this.synth = new PianoMp3({
+              minify: true,
               onload: () => {
                 console.log("audio samples loaded")
                 this.loading = false
