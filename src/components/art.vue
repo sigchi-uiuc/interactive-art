@@ -44,14 +44,26 @@ export default {
   },
 
   created() {
-      window.addEventListener('load', () => {
-        this.image_height = this.$refs.art.clientHeight
-        this.image_width = this.$refs.art.clientWidth
-      })
+    window.addEventListener('load', () => {
+      this.image_height = this.$refs.art.clientHeight
+      this.image_width = this.$refs.art.clientWidth
+    })
 
-      if (!location.toString().includes("localhost")) {
-        this.base_url = BASE_URL
-      }
+    // Load new notes whenever window size changes
+    window.addEventListener("resize", () => {
+      this.image_height = this.$refs.art.clientHeight
+      this.image_width = this.$refs.art.clientWidth
+      if(this.music_started)
+        this.start()
+    })
+
+    if (!location.toString().includes("localhost")) {
+      this.base_url = BASE_URL
+    }
+  },
+
+  destroyed() {
+    window.removeEventListener("resize", this.myEventHandler);
   },
 
   methods: {
