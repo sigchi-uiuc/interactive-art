@@ -50,8 +50,11 @@ export default {
       this.image_height = this.$refs.art.clientHeight
       this.image_width = this.$refs.art.clientWidth
       
-      clearTimeout(this.timeoutId)
-      this.timeoutId = setTimeout(this.note_resize, this.resize_delay)
+      if (this.music_started) {
+        this.loading = true
+        clearTimeout(this.timeoutId)
+        this.timeoutId = setTimeout(this.note_resize, this.resize_delay)
+      }
     })
 
     if (!location.toString().includes("localhost")) {
@@ -66,11 +69,8 @@ export default {
 
   methods: {
     async note_resize() {
-      if(this.music_started) {
-        this.loading = true
         await this.load_notes()
         this.loading = false
-      }
     },
 
     async load_notes() {
