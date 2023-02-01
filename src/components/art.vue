@@ -50,7 +50,6 @@ export default {
       this.image_height = this.$refs.art.clientHeight
       this.image_width = this.$refs.art.clientWidth
       
-      this.loading = true
       clearTimeout(this.timeoutId)
       this.timeoutId = setTimeout(this.note_resize, this.resize_delay)
     })
@@ -68,6 +67,7 @@ export default {
   methods: {
     async note_resize() {
       if(this.music_started) {
+        this.loading = true
         await this.load_notes()
         this.loading = false
       }
