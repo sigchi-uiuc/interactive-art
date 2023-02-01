@@ -39,27 +39,26 @@ export default {
       loading: false,
       music_started: false,
       time_delay: 800,
+      resize_delay: 500,
+      timeoutId: 0,
       base_url: ""
     }
   },
 
-  created() {
-    window.addEventListener('load', () => {
-      this.image_height = this.$refs.art.clientHeight
-      this.image_width = this.$refs.art.clientWidth
-    })
-
-    // Load new notes whenever window size changes
+  mounted() {
     window.addEventListener("resize", () => {
       this.image_height = this.$refs.art.clientHeight
       this.image_width = this.$refs.art.clientWidth
-      if(this.music_started)
-        this.start()
+      
+      this.loading = true
+      clearTimeout(this.timeoutId)
+      this.timeoutId = setTimeout(this.note_resize, this.resize_delay)
     })
 
     if (!location.toString().includes("localhost")) {
       this.base_url = BASE_URL
     }
+
   },
 
   destroyed() {
@@ -67,29 +66,25 @@ export default {
   },
 
   methods: {
-    load_notes_audio() {
+    async note_resize() {
+      if(this.music_started) {
+        await this.load_notes()
+        this.loading = false
+      }
+    },
+
+    async load_notes() {
+      this.image_height = this.$refs.art.clientHeight
+      this.image_width = this.$refs.art.clientWidth
+      
       var request_url = `${this.base_url}/coords/${this.image}/${this.image_width}/${this.image_height}`
       console.log(`getting notes from backend at ${request_url}`)
 
-      axios.get(request_url)
-      .then(response => {
-        this.image_info = response.data
-        console.log("notes loaded from backend")
-      })
-      .catch(error => {
-        console.log(`failed getting notes from backend: ${error}`)
-      })
-      .finally(() => {
-       console.log(`number of sections: ${this.image_info.length}`)
-       this.synth = new PianoMp3({
-              minify: true,
-              onload: () => {
-                console.log("audio samples loaded")
-                this.loading = false
-                this.music_started = true
-              }
-          }).toDestination()
-      })
+      const response = await axios.get(request_url)
+      this.image_info = response.data
+
+      console.log("notes loaded from backend")
+      return 
     },
 
     updateNote(event) {
@@ -108,10 +103,20 @@ export default {
       }
     },
 
-    start() {      
+    async start() {      
       this.loading = true
-      this.load_notes_audio()
-    },
+
+      await this.load_notes()
+      
+      this.synth = await new PianoMp3({
+              minify: true,
+              onload: () => {
+                console.log("audio samples loaded") 
+                this.loading = false
+                this.music_started = true
+              }
+          }).toDestination() 
+  },
 
     get_note(x, y) {
       var get_section = function(section) {
@@ -126,7 +131,7 @@ export default {
       // console.log(`image section: ${[...section[0].area]}`)
       return section[0].note
     }
-  }
+  },
 }
 </script>
 
