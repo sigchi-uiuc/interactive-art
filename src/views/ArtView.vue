@@ -1,23 +1,26 @@
 <template>
   <div>
     <div class="vl-parent">
-      <loading v-model:active="loading"
-              :is-full-page="true"/>
+      <loading v-model:active="loading" :is-full-page="true"/>
     </div>
+
     <div class="image-container">
-      <router-link :to="{ name: 'home'}" class="close-button">
-        <svg viewBox="0 0 256 256" class="close-icon">
-          <path d="M202.82861,197.17188a3.99991,3.99991,0,1,1-5.65722,5.65624L128,133.65723,58.82861,202.82812a3.99991,3.99991,0,0,1-5.65722-5.65624L122.343,128,53.17139,58.82812a3.99991,3.99991,0,0,1,5.65722-5.65624L128,122.34277l69.17139-69.17089a3.99991,3.99991,0,0,1,5.65722,5.65624L133.657,128Z"></path>
-        </svg>
-      </router-link> 
+      <router-link :to="{ name: 'home'}" class="close-button"></router-link> 
+
+      <button class="lightbox-nav nav-left"></button>
+
       <img 
-      class="image-style"
-      :style="[!music_started ? {opacity: 0.6} : {opacity: 1}]"
-      ref="art"
-      :src="require(`@/assets/${image}`)" 
-      v-on:mousemove="updateNote">
+        class="image-style"
+        :style="[!music_started ? {opacity: 0.6} : {opacity: 1}]"
+        ref="art"
+        :src="require(`@/assets/${image}`)" 
+        v-on:mousemove="updateNote">
+
+      <button class="lightbox-nav nav-right"></button>
+
       <p class="caption">This is an image caption</p>
     </div>
+
     <button v-if="!music_started" class="start-button" @click="start">
       Start
     </button>
@@ -160,6 +163,19 @@ export default {
     right: 0;
     cursor: pointer;
     z-index: 1;
+
+    width: var(--dl-size-size-medium);
+    height: var(--dl-size-size-medium);
+    background-color: transparent;
+    border-width: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin: var(--dl-space-space-unit);
+    background-image: url('@/assets/icons/exit.svg');
   }
 
   .image-container {
@@ -196,7 +212,6 @@ export default {
     border: none;
     cursor: pointer;
     border-radius: 5px;
-  
     bottom: 0;
     left: 0;
     margin: auto;
@@ -204,9 +219,35 @@ export default {
     position: fixed;
     right: 0;
     top: 0;
-  
     height: 40px;
   }
 
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 1;
+    width: var(--dl-size-size-medium);
+    height: var(--dl-size-size-medium);
+    background-color: transparent;
+    border-width: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+
+  .nav-left {
+    left: 20px;
+    background-image: url('@/assets/icons/left.svg');  
+  }
+
+  .nav-right {
+    right: 20px;
+    background-image: url('@/assets/icons/right.svg'); 
+  }
+
 </style>
-  
