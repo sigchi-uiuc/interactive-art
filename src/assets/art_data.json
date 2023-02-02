@@ -1,0 +1,23 @@
+[
+    {
+        "file": "joy.jpg",
+        "title": "The Joy of Life",
+        "artist": "Robert Delaunay",
+        "date": "1930",
+        "citation": "The Joy of Life"
+    },
+    {
+        "file": "park.jpg",
+        "title": "A Sunday Afternoon on the Island of La Grande Jatte",
+        "artist": "Georges Seurat",
+        "date": "1886",
+        "citation": "A Sunday Afternoon on the Island of La Grande Jatte"
+    },
+    {
+        "file": "test-art.jpg",
+        "title": "Squares with Concentric Circles",
+        "artist": "Wassily Kandinsky",
+        "date": "1913",
+        "citation": "Squares with Concentric Circles"
+    }
+]
