@@ -228,8 +228,8 @@ export default {
     transform: translateY(-50%);
     cursor: pointer;
     z-index: 1;
-    width: var(--dl-size-size-medium);
-    height: var(--dl-size-size-medium);
+    width: var(--dl-size-size-small);
+    height: var(--dl-size-size-small);
     background-color: transparent;
     border-width: 0;
     background-size: contain;
