@@ -1,6 +1,18 @@
 <template>
-  <div class="art-container">
-    <Art image='park.jpg'/>
+  <div class="container">
+    <div class="vl-parent">
+      <loading v-model:active="loading"
+              :is-full-page="true"/>
+    </div>
+    <img 
+      class="image-container"
+      :style="[!music_started ? {opacity: 0.6} : {opacity: 1}]"
+      ref="art"
+      :src="require(`@/assets/${image}`)" 
+      v-on:mousemove="updateNote">
+    <button v-if="!music_started" class="btn" @click="start">
+      Start
+    </button>
     <router-link :to="{ name: 'home'}" id="exit-icon">
       <svg viewBox="0 0 256 256" >
         <path d="M202.82861,197.17188a3.99991,3.99991,0,1,1-5.65722,5.65624L128,133.65723,58.82861,202.82812a3.99991,3.99991,0,0,1-5.65722-5.65624L122.343,128,53.17139,58.82812a3.99991,3.99991,0,0,1,5.65722-5.65624L128,122.34277l69.17139-69.17089a3.99991,3.99991,0,0,1,5.65722,5.65624L133.657,128Z"></path>
@@ -10,53 +22,124 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import Art from '@/components/art.vue'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/css/index.css'
+import axios from 'axios'
+import PianoMp3 from 'tonejs-instrument-piano-mp3'
+const BASE_URL = process.env.VUE_APP_BASE_URL
 
 
 export default {
   name: 'ArtView',
   components: {
-    Art
+    Loading
+  },
+  props: {
+    image: {
+      type: String,
+      default: "park.jpg"
+    }
   },
   data () {
     return {
-      timeoutId: null
+      image_info: undefined,
+      loading: false,
+      music_started: false,
+      time_delay: 800,
+      resize_delay: 500,
+      timeoutId: 0,
+      base_url: ""
     }
   },
 
-  /*created() {
-    window.addEventListener(marker, 'mouseover', function () {
-      timeoutId = window.setTimeout(function(){
-        alert("I did it!")
-      }, 2000)
+  mounted() {
+    window.addEventListener("resize", () => {
+      this.image_height = this.$refs.art.clientHeight
+      this.image_width = this.$refs.art.clientWidth
+      
+      if (this.music_started) {
+        this.loading = true
+        clearTimeout(this.timeoutId)
+        this.timeoutId = setTimeout(this.note_resize, this.resize_delay)
+      }
     })
 
-    window.addEventListener(marker, 'mouseout', function () {
-      window.clearTimeout(this.timeoutId)
-    })
-  },*/
+    if (!location.toString().includes("localhost")) {
+      this.base_url = BASE_URL
+    }
+
+  },
+
+  destroyed() {
+    window.removeEventListener("resize", this.myEventHandler);
+  },
+
 
   methods: {
-    homeMouseOver() {
-      this.timeoutId = window.setTimeout(function(){
-        // TODO: Return home
-        console.log("Return home")
-      }, 2000)
+    async note_resize() {
+        await this.load_notes()
+        this.loading = false
     },
 
-    homeMouseLeave() {
-      window.clearTimeout(this.timeoutId)
-    }
+    async load_notes() {
+      this.image_height = this.$refs.art.clientHeight
+      this.image_width = this.$refs.art.clientWidth
+      
+      var request_url = `${this.base_url}/coords/${this.image}/${this.image_width}/${this.image_height}`
+      console.log(`getting notes from backend at ${request_url}`)
 
+      const response = await axios.get(request_url)
+      this.image_info = response.data
+
+      console.log("notes loaded from backend")
+      return 
+    },
+
+    updateNote(event) {
+      if (!this.music_started || this.loading) {
+        return 
+      }
+
+      if ((!this.start_time) || (new Date() - this.start_time > this.time_delay)) {
+        var x = event.offsetX
+        var y = event.offsetY 
+        var note = this.get_note(x, y)
+
+        this.synth.triggerAttack(note)
+        console.log(`note playing: ${note} for x: ${x}, y: ${y}`)
+        this.start_time = new Date()
+      }
+    },
+
+    async start() {      
+      this.loading = true
+
+      await this.load_notes()
+      
+      this.synth = await new PianoMp3({
+              minify: true,
+              onload: () => {
+                console.log("audio samples loaded") 
+                this.loading = false
+                this.music_started = true
+              }
+          }).toDestination() 
   },
 
-  /*watch: {
-    timeoutId: function (val) {
-      console.log("here")
+    get_note(x, y) {
+      var get_section = function(section) {
+        var start_x = section.area[0]
+        var start_y = section.area[1]
+        var end_x = section.area[2]
+        var end_y = section.area[3]
+  
+        return x >= start_x && y >= start_y && x <= end_x && y <= end_y
+      }
+      var section = this.image_info.filter(get_section)
+      // console.log(`image section: ${[...section[0].area]}`)
+      return section[0].note
     }
-  }*/
-
+  }
 }
 </script>
 
@@ -69,15 +152,47 @@ export default {
     align-self: flex-end;
   }
 
-  .art-container {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+  .image-container {
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    overflow: auto;
     position: fixed;
-    justify-content: center;
+    right: 0;
+    top: 0;
+    -o-object-fit: contain;
+    object-fit: contain;
   }
-
+  
+  .container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .btn {
+    
+    background-color: #555;
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    overflow: auto;
+    position: fixed;
+    right: 0;
+    top: 0;
+  
+    height: 40px;
+  }
 
 </style>
   
