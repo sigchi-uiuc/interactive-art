@@ -1,23 +1,26 @@
 <template>
-  <div class="container">
+  <div>
     <div class="vl-parent">
       <loading v-model:active="loading"
               :is-full-page="true"/>
     </div>
-    <img 
-      class="image-container"
+    <div class="image-container">
+      <router-link :to="{ name: 'home'}" class="close-button">
+        <svg viewBox="0 0 256 256" class="close-icon">
+          <path d="M202.82861,197.17188a3.99991,3.99991,0,1,1-5.65722,5.65624L128,133.65723,58.82861,202.82812a3.99991,3.99991,0,0,1-5.65722-5.65624L122.343,128,53.17139,58.82812a3.99991,3.99991,0,0,1,5.65722-5.65624L128,122.34277l69.17139-69.17089a3.99991,3.99991,0,0,1,5.65722,5.65624L133.657,128Z"></path>
+        </svg>
+      </router-link> 
+      <img 
+      class="image-style"
       :style="[!music_started ? {opacity: 0.6} : {opacity: 1}]"
       ref="art"
       :src="require(`@/assets/${image}`)" 
       v-on:mousemove="updateNote">
-    <button v-if="!music_started" class="btn" @click="start">
+      <p class="caption">This is an image caption</p>
+    </div>
+    <button v-if="!music_started" class="start-button" @click="start">
       Start
     </button>
-    <router-link :to="{ name: 'home'}" id="exit-icon">
-      <svg viewBox="0 0 256 256" >
-        <path d="M202.82861,197.17188a3.99991,3.99991,0,1,1-5.65722,5.65624L128,133.65723,58.82861,202.82812a3.99991,3.99991,0,0,1-5.65722-5.65624L122.343,128,53.17139,58.82812a3.99991,3.99991,0,0,1,5.65722-5.65624L128,122.34277l69.17139-69.17089a3.99991,3.99991,0,0,1,5.65722,5.65624L133.657,128Z"></path>
-      </svg>
-    </router-link>
   </div>
 </template>
 
@@ -145,36 +148,47 @@ export default {
 
  <style scoped>
 
-  #exit-icon {
+  .close-icon {
     width: var(--dl-size-size-medium);
     height: var(--dl-size-size-medium);
     margin: var(--dl-space-space-unit);
-    align-self: flex-end;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    z-index: 1;
   }
 
   .image-container {
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-    overflow: auto;
     position: fixed;
-    right: 0;
     top: 0;
-    -o-object-fit: contain;
-    object-fit: contain;
-  }
-  
-  .container {
-    position: relative;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .image-style {
+    height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    margin-bottom: var(--dl-space-space-unit);
+    margin-top: var(--dl-space-space-unit)
+  }
+
+  .caption {
+    width: 100%;
+    text-align: center;
+    margin-bottom: var(--dl-space-space-twounits)
   }
   
-  .btn {
-    
+  .start-button {
     background-color: #555;
     color: white;
     font-size: 16px;
