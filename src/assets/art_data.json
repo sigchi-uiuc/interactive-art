@@ -19,5 +19,19 @@
         "artist": "Wassily Kandinsky",
         "date": "1913",
         "citation": "Squares with Concentric Circles"
+    },
+    {
+        "file": "circular-forms.jpg",
+        "title": "Circular Forms",
+        "artist": "Robert Delaunay",
+        "date": "1930",
+        "citation": "Circular Forms"
+    },
+    {
+        "file": "homage-to.jpg",
+        "title": "Homage to Bleriot",
+        "artist": "Robert Delaunay",
+        "date": "1914",
+        "citation": "Homage to Bleriot"
     }
 ]
