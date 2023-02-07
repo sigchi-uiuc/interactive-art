@@ -3,12 +3,11 @@
     <div class="vl-parent">
       <loading v-model:active="loading" :is-full-page="true"/>
     </div>
-
+    
     <div class="image-container">
       <router-link :to="{ name: 'home'}" class="close-button"></router-link> 
 
       <button class="lightbox-nav nav-left" @click="left_button"></button>
-
       <img 
         class="image-style"
         :style="[!music_started ? {opacity: 0.6} : {opacity: 1}]"
@@ -24,6 +23,8 @@
     <button v-if="!music_started" class="start-button" @click="start">
       Start
     </button>
+    
+    <cursor :color="cursor_color"/>
   </div>
 </template>
 
@@ -35,11 +36,14 @@ import PianoMp3 from 'tonejs-instrument-piano-mp3'
 const ART_DATA = require("@/assets/art_data.json")
 const BASE_URL = process.env.VUE_APP_BASE_URL
 
+import cursor from '@/components/cursor.vue'
+
 
 export default {
   name: 'ArtView',
   components: {
-    Loading
+    Loading,
+    cursor
   },
   data () {
     return {
@@ -51,7 +55,8 @@ export default {
       timeoutId: 0,
       base_url: "",
       art_data: ART_DATA,
-      image_index: 0
+      image_index: 0,
+      cursor_color: [0,0,0]
     }
   },
 
@@ -108,10 +113,13 @@ export default {
       if ((!this.start_time) || (new Date() - this.start_time > this.time_delay)) {
         var x = event.offsetX
         var y = event.offsetY 
-        var note = this.get_note(x, y)
+        var section = this.get_note(x, y)
 
-        this.synth.triggerAttack(note)
-        console.log(`note playing: ${note} for x: ${x}, y: ${y}`)
+        // update cursor color
+        this.cursor_color = section.color
+
+        this.synth.triggerAttack(section.note)
+        console.log(`note playing: ${section.note} for x: ${x}, y: ${y}`)
         this.start_time = new Date()
       }
     },
@@ -142,7 +150,7 @@ export default {
       }
       var section = this.image_info.filter(get_section)
       // console.log(`image section: ${[...section[0].area]}`)
-      return section[0].note
+      return section[0]
     },
 
     calc_index(n, m) {

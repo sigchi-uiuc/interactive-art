@@ -3,19 +3,32 @@ import numpy as np
 
 class Color2Music:
     def __init__(self, rgb, octave=4):
-        self.COLOR_MAP = {(82, 0, 0): f"F{octave}", 
-                (116, 0, 0): f"F#{octave}", 
-                (179, 0, 0): f"G{octave}", 
-                (238, 0, 0): f"G#{octave}",
-                (255,99,0): f"A{octave}",
-                (255, 236, 0): f"A#{octave}",
-                (153, 255, 0): f"B{octave}",
-                (40, 255, 0): f"C{octave+1}",
-                (0, 255, 232): f"C#{octave+1}",
-                (0, 124, 255): f"D{octave+1}",
-                (5, 0, 255): f"D#{octave+1}",
-                (69, 0, 234): f"E{octave+1}",
-                (87, 0, 158): f"F{octave+1}"}
+        self.CHORDS = {"Cmajor": [f"C{octave}", f"E{octave}", f"G{octave}"],
+                      "Gmajor": [f"G{octave}", f"B{octave}", f"D{octave}"],
+                      "Dmajor": [f"D{octave}", f"F#{octave}", f"A{octave}"],
+                      "Amajor": [f"A{octave}", f"C#{octave}", f"E{octave}"],
+                      "Emajor": [f"E{octave}", f"G#{octave}", f"B{octave}"],
+                      "Bmajor": [f"B{octave}", f"D#{octave}", f"F#{octave}"],
+                      "F#minor": [f"F#{octave}", f"A{octave}", f"C#{octave}"], 
+                      "Dbminor": [f"C#{octave}", f"E{octave}", f"G#{octave}"], 
+                      "Abminor": [f"G#{octave}", f"B{octave}", f"D#{octave}"], 
+                      "Ebminor": [f"D#{octave}", f"F#{octave}", f"A#{octave}"], 
+                      "Bbminor": [f"A#{octave}", f"C#{octave}", f"F{octave}"], 
+                      "Fminor": [f"F{octave}", f"G#{octave}", f"C{octave}"]} 
+
+        self.COLOR_MAP = {(255, 0, 0): self.CHORDS['Cmajor'], #red
+                          (255, 128, 0): self.CHORDS['Gmajor'], #orange
+                          (255, 255, 0): self.CHORDS['Dmajor'], #yellow
+                          (47, 205, 48): self.CHORDS['Amajor'], #green
+                          (196, 242, 255): self.CHORDS['Emajor'], #light blue
+                          (143, 202, 255): self.CHORDS['Bmajor'], #blue
+                          (128, 140, 253): self.CHORDS['F#minor'], #dark blue
+                          (145, 0, 255): self.CHORDS['Dbminor'], #purple
+                          (188, 118, 252): self.CHORDS['Abminor'], #light purple
+                          (142, 51, 107): self.CHORDS['Ebminor'], #pink
+                          (171, 103, 125): self.CHORDS['Bbminor'], #skin color
+                          (173, 0, 49): self.CHORDS['Fminor'] # velvet
+                         }
         self.rgb = rgb
     
     def get_note(self):
