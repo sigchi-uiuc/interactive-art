@@ -210,13 +210,14 @@ export default {
   }
 
   .image-style {
-    height: 100%;
+    height: auto;
+    width: auto;
     /*max-height: 70%;*/
-    max-width: 100%;
     max-width: calc(100% - 200px);
+    max-height: calc(100% - 100px);
     object-fit: contain;
     margin-bottom: var(--dl-space-space-unit);
-    margin-top: var(--dl-space-space-unit)
+    margin-top: var(--dl-space-space-unit);
   }
 
   .caption {
