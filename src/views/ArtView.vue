@@ -211,7 +211,9 @@ export default {
 
   .image-style {
     height: 100%;
+    /*max-height: 70%;*/
     max-width: 100%;
+    max-width: calc(100% - 200px);
     object-fit: contain;
     margin-bottom: var(--dl-space-space-unit);
     margin-top: var(--dl-space-space-unit)
