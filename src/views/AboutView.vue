@@ -1,6 +1,7 @@
+<template>
 <div class="about">
     <h1>About SIGCHI</h1>
-    <p> SIGCHI is a Special Interest Group within ACM (Association of Computing Machinery), which focuses on Computer-Human Interaction. In weekly meetings (Tuesdays at 6pm), we learn about real-world examples of computer-human interaction in current technology, and then engage in discussions and work on our main project for this year: a tool that produces sound/music from an art/picture, depending on where a person is looking at the artwork. <p>
+    <p> SIGCHI is a Special Interest Group within ACM (Association of Computing Machinery), which focuses on Computer-Human Interaction. In weekly meetings (Tuesdays at 6pm), we learn about real-world examples of computer-human interaction in current technology, and then engage in discussions and work on our main project for this year: a tool that produces sound/music from an art/picture, depending on where a person is looking at the artwork. </p>
     <br>
 
     <h1>Details About This Project </h1>
@@ -16,3 +17,4 @@
     <p>Lead: Abhimanyu Thosar, Mitchell Bifeld, Swathi Ram, Jeffrey Tsai</p>
     <p>UI Team: Aditi, Will, Rohith, Karthik, Mari, Ethan, Mitchell</p>
   </div>
+</template>
