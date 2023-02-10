@@ -5,6 +5,8 @@
     </div>
     
     <div class="image-container">
+      <VueToggle @toggle="change_cursor" class="toggle-button" title="Cursor" name="CursorToggle" :toggled="cursor_on"/> 
+
       <router-link :to="{ name: 'home'}" class="close-button"></router-link> 
 
       <button class="lightbox-nav nav-left" @click="left_button"></button>
@@ -24,7 +26,7 @@
       Start
     </button>
     
-    <cursor :color="cursor_color"/>
+    <cursor v-if="cursor_on" :color="cursor_color"/>
   </div>
 </template>
 
@@ -33,17 +35,18 @@ import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
 import axios from 'axios'
 import PianoMp3 from 'tonejs-instrument-piano-mp3'
-const ART_DATA = require("@/assets/art_data.json")
-const BASE_URL = process.env.VUE_APP_BASE_URL
-
+import VueToggle from "vue-toggle-component"
 import cursor from '@/components/cursor.vue'
 
+const ART_DATA = require("@/assets/art_data.json")
+const BASE_URL = process.env.VUE_APP_BASE_URL
 
 export default {
   name: 'ArtView',
   components: {
     Loading,
-    cursor
+    cursor,
+    VueToggle
   },
   data () {
     return {
@@ -56,7 +59,8 @@ export default {
       base_url: "",
       art_data: ART_DATA,
       image_index: 0,
-      cursor_color: [0,0,0]
+      cursor_color: [0,0,0],
+      cursor_on: true
     }
   },
 
@@ -167,6 +171,10 @@ export default {
       var new_index = this.calc_index(this.image_index + 1, this.art_data.length)
       this.image_index = new_index
       this.music_started = false
+    },
+
+    change_cursor() {
+      this.cursor_on = !this.cursor_on
     }
   },
 
@@ -195,6 +203,13 @@ export default {
     display: flex;
     margin: var(--dl-space-space-unit);
     background-image: url('@/assets/icons/exit.svg');
+  }
+
+  .toggle-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: var(--dl-space-space-twounits);
   }
 
   .image-container {
