@@ -210,9 +210,8 @@ export default {
   }
 
   .image-style {
-    height: auto;
+    height: 100%;
     width: auto;
-    /*max-height: 70%;*/
     max-width: calc(100% - 200px);
     max-height: calc(100% - 100px);
     object-fit: contain;
