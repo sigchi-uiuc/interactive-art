@@ -241,21 +241,20 @@ export default {
   }
   
   .start-button {
-    background-color: #555;
-    color: white;
-    font-size: 16px;
-    padding: 12px 24px;
-    border: none;
     cursor: pointer;
-    border-radius: 5px;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-    overflow: auto;
-    position: fixed;
-    right: 0;
-    top: 0;
-    height: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: white;
+    font-size: 16px;
+    width: var(--dl-size-size-medium);
+    height: var(--dl-size-size-small);
+    border-width: 3px;
+    border-color: var(--dl-color-gray-500);
+    border-radius: var(--dl-radius-radius-radius8);
+    box-shadow: 0px 4px 2px 0px #595959;
   }
 
   .lightbox-nav {
