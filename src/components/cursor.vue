@@ -28,8 +28,8 @@
     },
     methods: {
       updatePosition(event) {
-        this.x = event.clientX;
-        this.y = event.clientY;
+        this.x = event.clientX - 30;
+        this.y = event.clientY - 30;
       }
     }
   };
@@ -44,7 +44,8 @@
     transition: all 0.2s ease-out;
     outline-color: black;
     outline-width: 10px;
-    outline: solid
+    outline: solid;
+    pointer-events: none;
   }
   </style>
   
