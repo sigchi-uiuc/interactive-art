@@ -210,6 +210,8 @@ export default {
     top: 0;
     left: 0;
     margin: var(--dl-space-space-twounits);
+    display: flex;
+    cursor: pointer;
   }
 
   .image-container {
