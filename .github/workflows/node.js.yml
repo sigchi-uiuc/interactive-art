@@ -26,15 +26,21 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build
-    - name: commit files
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git pull origin main
-        git add -A
-        git diff-index --quiet HEAD || (git commit -a -m "updated build" --allow-empty)
-    - name: push changes
-      uses: ad-m/github-push-action@v0.6.0
+    - name: Commit and Push files
+      uses: actions/github-script@0.9.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: main
+        args: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git pull origin main
+          
+          # Add files to the Git index
+          git add -A
+
+          # Commit changes with a message
+          git commit -m "Commit and push files from GitHub Actions workflow"
+
+          # Push changes to the remote repository
+          git push origin main
