@@ -5,7 +5,7 @@
     </div>
     
     <div class="image-container">
-      <VueToggle @toggle="change_cursor" class="toggle-button" title="Cursor" name="CursorToggle" :toggled="cursor_on"/> 
+      <toggle @toggle="change_cursor" class="toggle-button" title="Cursor" name="CursorToggle" :toggled="cursor_on"/> 
 
       <router-link :to="{ name: 'home'}" class="close-button"></router-link> 
 
@@ -37,6 +37,7 @@ import axios from 'axios'
 import PianoMp3 from 'tonejs-instrument-piano-mp3'
 import VueToggle from "vue-toggle-component"
 import cursor from '@/components/cursor.vue'
+import toggle from '@/components/toggle.vue'
 
 const ART_DATA = require("@/assets/art_data.json")
 const BASE_URL = process.env.VUE_APP_BASE_URL
@@ -46,7 +47,7 @@ export default {
   components: {
     Loading,
     cursor,
-    VueToggle
+    toggle
   },
   data () {
     return {

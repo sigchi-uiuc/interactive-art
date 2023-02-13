@@ -10,12 +10,13 @@
   "dependencies": {
     "axios": "^1.2.0",
     "core-js": "^3.8.3",
+    "sass": "^1.58.0",
+    "sass-loader": "^13.2.0",
     "tone": "^14.7.77",
     "tonejs-instrument-piano-mp3": "^1.1.2",
     "vue": "^3.2.13",
     "vue-loading-overlay": "6.0",
-    "vue-router": "^4.0.3",
-    "vue-toggle-component": "^1.0.16"
+    "vue-router": "^4.0.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.0",
