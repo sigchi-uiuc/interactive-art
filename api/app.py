@@ -65,7 +65,7 @@ def extract_notes_colors(f_name, num_split):
     print("primary image colors not cached")
     
     img_path = os.path.join(DATA_DIR, f_name)
-    return get_notes_colors(img_path, num_split, MIN_ENTROPY, MAX_ENTROPY)
+    return get_notes_colors(img_path, num_split, MAX_ENTROPY, MIN_ENTROPY)
 
 if __name__ == '__main__':
     port_num = 5000

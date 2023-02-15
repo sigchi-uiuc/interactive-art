@@ -38,12 +38,12 @@ def convert_range(old_max, old_min, new_max, new_min, old_value):
     
     return new_val
 
-def get_bpm(img, min_entropy, max_entropy, max_bpm, min_bpm):
+def get_bpm(img, max_entropy, min_entropy, max_bpm, min_bpm):
     entropy = skimage.measure.shannon_entropy(img)
     bpm = int(convert_range(max_entropy, min_entropy, max_bpm, min_bpm, entropy))
     return bpm
 
-def get_notes_colors(img_path, num_split, min_entropy, max_entropy):
+def get_notes_colors(img_path, num_split, max_entropy, min_entropy):
     img = Image.open(img_path)
     split = SplitImage(img.size, num_split)
 
@@ -63,7 +63,7 @@ def get_notes_colors(img_path, num_split, min_entropy, max_entropy):
 
     max_bpm = Color2Music.MAX_BPM
     min_bpm = Color2Music.MIN_BPM
-    bpm = get_bpm(img, min_entropy, max_entropy, max_bpm, min_bpm)
+    bpm = get_bpm(img, max_entropy, min_entropy, max_bpm, min_bpm)
     
     return colors, notes, bpm
         
