@@ -40,7 +40,6 @@ def convert_range(old_max, old_min, new_max, new_min, old_value):
 
 def get_bpm(img, min_entropy, max_entropy, max_bpm, min_bpm):
     entropy = skimage.measure.shannon_entropy(img)
-    print("entropy", entropy)
     bpm = int(convert_range(max_entropy, min_entropy, max_bpm, min_bpm, entropy))
     return bpm
 
