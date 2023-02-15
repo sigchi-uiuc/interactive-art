@@ -1,11 +1,12 @@
 import math
 import numpy as np
+from util import convert_range
 
 class Color2Music:
     MAX_BPM = 160
     MIN_BPM = 40
-    MIN_OCTAVE = 2
-    MAX_OCTAVE = 6
+    MIN_OCTAVE = 3
+    MAX_OCTAVE = 5
 
     def __init__(self, rgb, octave=4):
         self.CHORDS = {"Cmajor": [f"C{octave}", f"E{octave}", f"G{octave}"],
@@ -46,4 +47,19 @@ class Color2Music:
         return math.sqrt((rgb1[0] - rgb2[0])**2 +  
                         (rgb1[1] - rgb2[1])**2 + 
                         (rgb1[2] - rgb2[2])**2)
+    
+    @staticmethod
+    def get_bpm(entropy, max_entropy, min_entropy):
+        max_bpm = Color2Music.MAX_BPM
+        min_bpm = Color2Music.MIN_BPM
 
+        bpm = convert_range(max_entropy, min_entropy, max_bpm, min_bpm, entropy)
+        return bpm
+    
+    @staticmethod
+    def get_octave(luminance, max_lum, min_lum):
+        max_oct = Color2Music.MAX_OCTAVE
+        min_oct = Color2Music.MIN_OCTAVE
+
+        octave = convert_range(max_lum, min_lum, max_oct, min_oct, luminance)
+        return octave
