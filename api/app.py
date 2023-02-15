@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-from process_image import SplitImage, get_notes_colors
+from process_image import SplitImage, get_image_data
 import time
 import os
 from flask_caching import Cache
@@ -65,7 +65,7 @@ def extract_notes_colors(f_name, num_split):
     print("primary image colors not cached")
     
     img_path = os.path.join(DATA_DIR, f_name)
-    return get_notes_colors(img_path, num_split, MAX_ENTROPY, MIN_ENTROPY)
+    return get_image_data(img_path, num_split, MAX_ENTROPY, MIN_ENTROPY)
 
 if __name__ == '__main__':
     port_num = 5000

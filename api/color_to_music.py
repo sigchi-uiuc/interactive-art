@@ -1,5 +1,6 @@
 import math
 import numpy as np
+from util import convert_range
 
 class Color2Music:
     MAX_BPM = 160
@@ -46,4 +47,12 @@ class Color2Music:
         return math.sqrt((rgb1[0] - rgb2[0])**2 +  
                         (rgb1[1] - rgb2[1])**2 + 
                         (rgb1[2] - rgb2[2])**2)
+    
+    @staticmethod
+    def get_bpm(entropy, max_entropy, min_entropy):
+        max_bpm = Color2Music.MAX_BPM
+        min_bpm = Color2Music.MIN_BPM
+        
+        bpm = int(convert_range(max_entropy, min_entropy, max_bpm, min_bpm, entropy))
+        return bpm
 

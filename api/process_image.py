@@ -26,24 +26,8 @@ class SplitImage:
         rows = int(math.ceil(num_sections / float(cols)))
         return (cols, rows)
 
-def convert_range(old_max, old_min, new_max, new_min, old_value):
-    old_range = (old_max - old_min)  
-    new_range = (new_max - new_min)  
-    new_val = (((old_value - old_min) * new_range) / old_range) + new_min
-    if new_val < new_min:
-        return new_min
-    
-    if new_val > new_max:
-        return new_max
-    
-    return new_val
 
-def get_bpm(img, max_entropy, min_entropy, max_bpm, min_bpm):
-    entropy = skimage.measure.shannon_entropy(img)
-    bpm = int(convert_range(max_entropy, min_entropy, max_bpm, min_bpm, entropy))
-    return bpm
-
-def get_notes_colors(img_path, num_split, max_entropy, min_entropy):
+def get_image_data(img_path, num_split, max_entropy, min_entropy):
     img = Image.open(img_path)
     split = SplitImage(img.size, num_split)
 
@@ -61,9 +45,9 @@ def get_notes_colors(img_path, num_split, max_entropy, min_entropy):
         colors.append(color)
         notes.append(note)
 
-    max_bpm = Color2Music.MAX_BPM
-    min_bpm = Color2Music.MIN_BPM
-    bpm = get_bpm(img, max_entropy, min_entropy, max_bpm, min_bpm)
+    # get bpm based on image entropy
+    entropy = skimage.measure.shannon_entropy(img)
+    bpm = Color2Music.get_bpm(entropy, max_entropy, min_entropy)
     
     return colors, notes, bpm
         
