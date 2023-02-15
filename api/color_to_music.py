@@ -2,6 +2,11 @@ import math
 import numpy as np
 
 class Color2Music:
+    MAX_BPM = 160
+    MIN_BPM = 40
+    MIN_OCTAVE = 2
+    MAX_OCTAVE = 6
+
     def __init__(self, rgb, octave=4):
         self.CHORDS = {"Cmajor": [f"C{octave}", f"E{octave}", f"G{octave}"],
                       "Gmajor": [f"G{octave}", f"B{octave}", f"D{octave}"],

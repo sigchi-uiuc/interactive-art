@@ -109,8 +109,11 @@ export default {
       const response = await axios.get(request_url)
       this.music_data = response.data
       // initialize current note
-      this.current_note = this.music_data[0].note
-
+      this.current_note = this.music_data.sections[0].note
+      // initialize bpm 
+      this.bpm = this.music_data.bpm
+      
+      console.log(`bpm set to: ${this.bpm}`)
       console.log("notes loaded from backend")
       return 
     },
@@ -172,7 +175,7 @@ export default {
   
         return x >= start_x && y >= start_y && x <= end_x && y <= end_y
       }
-      var section = this.music_data.filter(get_section)
+      var section = this.music_data.sections.filter(get_section)
       return section[0]
     },
 
