@@ -50,4 +50,3 @@ def get_image_data(img_path, num_split, max_entropy, min_entropy):
     bpm = Color2Music.get_bpm(entropy, max_entropy, min_entropy)
     
     return colors, notes, bpm
-        

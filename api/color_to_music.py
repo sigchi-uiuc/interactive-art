@@ -52,7 +52,6 @@ class Color2Music:
     def get_bpm(entropy, max_entropy, min_entropy):
         max_bpm = Color2Music.MAX_BPM
         min_bpm = Color2Music.MIN_BPM
-        
-        bpm = int(convert_range(max_entropy, min_entropy, max_bpm, min_bpm, entropy))
-        return bpm
 
+        bpm = convert_range(max_entropy, min_entropy, max_bpm, min_bpm, entropy)
+        return bpm
