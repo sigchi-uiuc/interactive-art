@@ -2,6 +2,7 @@ import math
 from PIL import Image
 from extract_color import ExtractColor
 from color_to_music import Color2Music
+import skimage.measure    
 
 class SplitImage:
     def __init__(self, img_size, num_sections):
@@ -25,7 +26,24 @@ class SplitImage:
         rows = int(math.ceil(num_sections / float(cols)))
         return (cols, rows)
 
-def get_notes_colors(img_path, num_split):
+def convert_range(old_max, old_min, new_max, new_min, old_value):
+    old_range = (old_max - old_min)  
+    new_range = (new_max - new_min)  
+    new_val = (((old_value - old_min) * new_range) / old_range) + new_min
+    if new_val < new_min:
+        return new_min
+    
+    if new_val > new_max:
+        return new_max
+    
+    return new_val
+
+def get_bpm(img, min_entropy, max_entropy, max_bpm, min_bpm):
+    entropy = skimage.measure.shannon_entropy(img)
+    bpm = int(convert_range(max_entropy, min_entropy, max_bpm, min_bpm, entropy))
+    return bpm
+
+def get_notes_colors(img_path, num_split, min_entropy, max_entropy):
     img = Image.open(img_path)
     split = SplitImage(img.size, num_split)
 
@@ -42,6 +60,10 @@ def get_notes_colors(img_path, num_split):
 
         colors.append(color)
         notes.append(note)
+
+    max_bpm = Color2Music.MAX_BPM
+    min_bpm = Color2Music.MIN_BPM
+    bpm = get_bpm(img, min_entropy, max_entropy, max_bpm, min_bpm)
     
-    return colors, notes
+    return colors, notes, bpm
         

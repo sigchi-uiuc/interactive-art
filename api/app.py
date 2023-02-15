@@ -14,7 +14,10 @@ cache_config = {
     "CACHE_DEFAULT_TIMEOUT": 0,
     "CACHE_DIR": CACHE_DIR
 }
+
 NUM_SECTIONS = 8
+MAX_ENTROPY = 8.0
+MIN_ENTROPY = 7.3
 
 # set up flask app
 app = Flask(__name__)
@@ -32,11 +35,11 @@ def get_notes(image, width, height):
 
     # get primary color from each section of the image
     # it will be cached if a given image has been seen before with the same number of sections
-    colors, notes = extract_notes_colors(image, NUM_SECTIONS)
+    colors, notes, bpm = extract_notes_colors(image, NUM_SECTIONS)
 
     # scale notes and colors to new area based on split image
     i = 0
-    response = []
+    sections = []
     split = SplitImage((width, height), NUM_SECTIONS)
     for chunk in split.get_chunks():
         color = colors[i]
@@ -47,9 +50,11 @@ def get_notes(image, width, height):
         data['note'] = note
         data['area'] = chunk
 
-        response.append(data)
+        sections.append(data)
         i += 1
 
+    response = {"sections": sections}
+    response['bpm'] = bpm
     end = int(time.time() - start)
     print(f"processed image in: {end} seconds")
 
@@ -60,7 +65,7 @@ def extract_notes_colors(f_name, num_split):
     print("primary image colors not cached")
     
     img_path = os.path.join(DATA_DIR, f_name)
-    return get_notes_colors(img_path, num_split)
+    return get_notes_colors(img_path, num_split, MIN_ENTROPY, MAX_ENTROPY)
 
 if __name__ == '__main__':
     port_num = 5000
