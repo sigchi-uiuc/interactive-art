@@ -27,9 +27,15 @@ class SplitImage:
         return (cols, rows)
 
 
-def get_image_data(img_path, num_split, max_entropy, min_entropy):
+def get_image_data(img_path, num_split, max_entropy, min_entropy, max_lum, min_lum):
     img = Image.open(img_path)
     split = SplitImage(img.size, num_split)
+
+    # get octave for all notes
+    luminance = ExtractColor.get_luminance(img)
+    print("average brightness", luminance)
+    octave = Color2Music.get_octave(luminance, max_lum, min_lum)
+    print("octave", octave)
 
     colors = []
     notes = []
@@ -39,7 +45,7 @@ def get_image_data(img_path, num_split, max_entropy, min_entropy):
         ext_color = ExtractColor(image_section)
         color = ext_color.get_dominant()
 
-        color_music = Color2Music(color)
+        color_music = Color2Music(color, octave=octave)
         note = color_music.get_note()
 
         colors.append(color)
