@@ -255,7 +255,7 @@ export default {
     height: 100%;
     width: auto;
     max-width: calc(100% - 200px);
-    max-height: calc(100% - 100px);
+    max-height: calc(100% - 200px);
     object-fit: contain;
     margin-bottom: var(--dl-space-space-unit);
     margin-top: var(--dl-space-space-unit);
