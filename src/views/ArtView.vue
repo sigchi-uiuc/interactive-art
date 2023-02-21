@@ -5,11 +5,15 @@
     </div>
     
     <div class="image-container">
-      <toggle @toggle="change_cursor" class="toggle-button" title="Cursor" name="CursorToggle" :toggled="cursor_on"/> 
+      <toggle @toggle="change_cursor" class="toggle-button no-cursor" title="Cursor" name="CursorToggle" :toggled="cursor_on"
+      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"/> 
 
-      <router-link :to="{ name: 'home'}" class="close-button"></router-link> 
+      <router-link :to="{ name: 'home'}" class="close-button no-cursor" 
+      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"></router-link> 
 
-      <button class="lightbox-nav nav-left" @click="left_button"></button>
+      <button class="lightbox-nav nav-left no-cursor" @click="left_button" 
+      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"></button>
+
       <img 
         class="image-style"
         :style="[!music_started ? {opacity: 0.6} : {opacity: 1}]"
@@ -19,12 +23,14 @@
         @mouseleave="stop_music"
         @mouseover="start_music_loop">
 
-      <button class="lightbox-nav nav-right" @click="right_button"></button>
+      <button class="lightbox-nav nav-right no-cursor" @click="right_button"
+      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"></button>
 
       <p class="caption">{{art_data[image_index].citation}}</p>
     </div>
 
-    <button v-if="!music_started" class="start-button" @click="start_viewing">
+    <button v-if="!music_started" class="start-button no-cursor" @click="start_viewing"
+    @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color">
       Start
     </button>
     
@@ -65,6 +71,8 @@ export default {
       art_data: ART_DATA,
       image_index: 0,
       cursor_color: [0,0,0],
+      hover_cursor_color: [0, 200, 200],
+      reg_cursor_color: [0, 0, 0],
       cursor_on: true
     }
   },
@@ -213,7 +221,6 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
-    cursor: pointer;
     z-index: 1;
 
     width: var(--dl-size-size-medium);
@@ -236,7 +243,6 @@ export default {
     left: 0;
     margin: var(--dl-space-space-twounits);
     display: flex;
-    cursor: pointer;
   }
 
   .image-container {
@@ -268,7 +274,6 @@ export default {
   }
   
   .start-button {
-    cursor: pointer;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -288,7 +293,6 @@ export default {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    cursor: pointer;
     z-index: 1;
     width: var(--dl-size-size-small);
     height: var(--dl-size-size-small);
