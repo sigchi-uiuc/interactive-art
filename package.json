@@ -16,7 +16,8 @@
     "tonejs-instrument-piano-mp3": "^1.1.2",
     "vue": "^3.2.13",
     "vue-loading-overlay": "6.0",
-    "vue-router": "^4.0.3"
+    "vue-router": "^4.0.3",
+    "vue3-carousel": "^0.2.9"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.0",

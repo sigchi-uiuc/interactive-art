@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <router-link :to="{ name: 'ArtView'}">
+    <router-link :to="{ name: 'CarouselView'}">
       <div class="view-button">
         View Art
       </div>     
