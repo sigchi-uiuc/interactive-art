@@ -11,8 +11,18 @@
       <router-link :to="{ name: 'home'}" class="close-button no-cursor" 
       @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"></router-link> 
 
-      <button class="lightbox-nav nav-left no-cursor" @click="left_button" 
-      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"></button>
+      <!--<button class="arrow-box-left no-cursor" @click="left_button"
+      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color">
+      <div class="lightbox-nav nav-left no-cursor" ></div>
+      </button>-->
+
+      <div class="animated-progress left-arrow-progress" @:mouseover="leftArrowHover = true; cursor_color = hover_cursor_color" @:mouseleave="leftArrowHover = false; cursor_color = reg_cursor_color">
+        <span :style="{ 'width': leftArrowProgress + 'px' }"></span>
+      </div>
+
+      <button class="lightbox-nav nav-left"></button>
+
+      
 
       <img 
         class="image-style"
@@ -23,8 +33,16 @@
         @mouseleave="stop_music"
         @mouseover="start_music_loop">
 
-      <button class="lightbox-nav nav-right no-cursor" @click="right_button"
-      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"></button>
+      <div class="animated-progress right-arrow-progress" @:mouseover="rightArrowHover = true; cursor_color = hover_cursor_color" @:mouseleave="rightArrowHover = false; cursor_color = reg_cursor_color">
+        <span :style="{ 'width': rightArrowProgress + 'px' }"></span>
+      </div>
+
+      <button class="lightbox-nav nav-right"></button>
+
+      <!--<button class="arrow-box-right no-cursor"
+      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color">
+      <div class="lightbox-nav nav-right no-cursor" ></div>
+      </button>-->
 
       <p class="caption">{{art_data[image_index].citation}}</p>
     </div>
@@ -73,7 +91,11 @@ export default {
       cursor_color: [0,0,0],
       hover_cursor_color: [0, 200, 200],
       reg_cursor_color: [0, 0, 0],
-      cursor_on: true
+      cursor_on: true,
+      rightArrowProgress: 0,
+      rightArrowHover: false,
+      leftArrowProgress: 0,
+      leftArrowHover: false
     }
   },
 
@@ -98,8 +120,60 @@ export default {
     window.removeEventListener("resize", this.myEventHandler);
   },
 
+  watch: {
+    rightArrowProgress: {
+      handler(value) {
+          if(value < 100) {
+            setTimeout(() => {
+              if(value >= 1 && this.rightArrowHover)
+                this.rightArrowProgress++;
+            }, 20);
+          } else {
+            setTimeout(() => {
+              this.right_button();
+              this.rightArrowProgress = 0;
+            }, 100);
+          }
+      }
+    },
+    rightArrowHover: {
+      handler(value) {
+        if(value == true) {
+          this.rightArrowProgress = 1;
+        } else {
+          this.rightArrowProgress = 0;
+        }
+      }
+    },
+    leftArrowProgress: {
+      handler(value) {
+          if(value < 100) {
+            setTimeout(() => {
+              if(value >= 1 && this.leftArrowHover)
+                this.leftArrowProgress++;
+            }, 20);
+          } else {
+            setTimeout(() => {
+              this.left_button();
+              this.leftArrowProgress = 0;
+            }, 100);
+          }
+      }
+    },
+    leftArrowHover: {
+      handler(value) {
+        if(value == true) {
+          this.leftArrowProgress = 1;
+        } else {
+          this.leftArrowProgress = 0;
+        }
+      }
+    }
+  },
 
   methods: {
+
+
     async note_resize() {
         await this.load_notes()
         this.loading = false
@@ -209,8 +283,11 @@ export default {
 
     change_cursor() {
       this.cursor_on = !this.cursor_on
+
+      this.$emit('change_cursor')
     }
-  },
+
+  }
 
 
 }
@@ -289,10 +366,80 @@ export default {
     box-shadow: 0px 4px 2px 0px #595959;
   }
 
+  .arrow-box-right {
+    width: 100px;
+    height: 500px;
+    background-color: transparent;
+
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 1;
+    border-width: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 20px;
+  }
+
+  .arrow-box-left {
+    width: 100px;
+    height: 500px;
+    background-color: transparent;
+
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    z-index: 1;
+    border-width: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 20px;
+  }
+
+  /*.lightbox-nav {
+    width: var(--dl-size-size-small);
+    height: var(--dl-size-size-small);
+    background-color: transparent;
+    border-width: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }*/
+
+  .arrow-box-right:hover {
+    background-color: rgb(185, 185, 185);
+  }
+
+  .arrow-box-left:hover {
+    background-color: rgb(185, 185, 185);
+  }
+/*
+  .nav-left {
+    background-image: url('@/assets/icons/left.svg');  
+  }
+
+  .nav-right {
+    background-image: url('@/assets/icons/right.svg'); 
+  }
+*/
   .lightbox-nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    cursor: pointer;
     z-index: 1;
     width: var(--dl-size-size-small);
     height: var(--dl-size-size-small);
@@ -305,15 +452,55 @@ export default {
     justify-content: center;
     display: flex;
   }
-
   .nav-left {
-    left: 20px;
+    left: 30px;
     background-image: url('@/assets/icons/left.svg');  
+    pointer-events: none;
+  }
+  .nav-right {
+    right: 30px;
+    background-image: url('@/assets/icons/right.svg'); 
+    pointer-events: none;
+
   }
 
-  .nav-right {
-    right: 20px;
-    background-image: url('@/assets/icons/right.svg'); 
+  .animated-progress {
+    position: absolute;
+    width: 100px;
+    height: 500px;
+    border-radius: 5px;
+    border-width: 5px;
+    outline-color: lightgrey;
+    outline-width: 1px;
+    outline-style: solid;
+  }
+
+  .right-arrow-progress {
+    right: 10px;
+    
+  }
+
+  .left-arrow-progress {
+    left: 10px;
+    
+  }
+
+  .animated-progress span {
+    height: 100%;
+    display: block;
+    color: purple;
+    background: rgb(117, 117, 117);
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+  }
+
+  .left-arrow-progress span {
+    right: 0;
+  }
+
+  .right-arrow-progress span {
+    left: 0;
   }
 
 </style>
