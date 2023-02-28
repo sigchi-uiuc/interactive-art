@@ -8,13 +8,18 @@
       <toggle @toggle="change_cursor" class="toggle-button no-cursor" title="Cursor" name="CursorToggle" :toggled="cursor_on"
       @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"/> 
 
-      <router-link :to="{ name: 'home'}" class="close-button no-cursor" 
-      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"></router-link> 
+      <div class="close-button-animated-progress" @:mouseover="closeButtonHover = true; cursor_color = hover_cursor_color" @:mouseleave="closeButtonHover = false; cursor_color = reg_cursor_color">
+        <span :style="{ 'width': closeButtonProgress + 'px', 'height': closeButtonProgress + 'px'}"></span>
+      </div>
+      <div class="close-button no-cursor" 
+      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"/>
 
       <!--<button class="arrow-box-left no-cursor" @click="left_button"
       @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color">
       <div class="lightbox-nav nav-left no-cursor" ></div>
-      </button>-->
+      </button>
+    
+    router-link :to="{ name: 'home'}"-->
 
       <div class="animated-progress left-arrow-progress" @:mouseover="leftArrowHover = true; cursor_color = hover_cursor_color" @:mouseleave="leftArrowHover = false; cursor_color = reg_cursor_color">
         <span :style="{ 'width': leftArrowProgress + 'px' }"></span>
@@ -47,9 +52,11 @@
       <p class="caption">{{art_data[image_index].citation}}</p>
     </div>
 
-    <button v-if="!music_started" class="start-button no-cursor" @click="start_viewing"
-    @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color">
-      Start
+
+    <button v-if="!music_started" class="start-button no-cursor"
+    @:mouseover="startButtonHover = true; cursor_color = hover_cursor_color" @:mouseleave="startButtonHover = false; cursor_color = reg_cursor_color">
+      <span :style="{ 'width': startButtonProgress + 'px' }"></span>
+      <div class="start-text">Start</div>
     </button>
     
     <cursor v-if="cursor_on" :color="cursor_color"/>
@@ -95,7 +102,11 @@ export default {
       rightArrowProgress: 0,
       rightArrowHover: false,
       leftArrowProgress: 0,
-      leftArrowHover: false
+      leftArrowHover: false,
+      closeButtonProgress: 0,
+      closeButtonHover: false,
+      startButtonProgress: 0,
+      startButtonHover: false
     }
   },
 
@@ -166,6 +177,54 @@ export default {
           this.leftArrowProgress = 1;
         } else {
           this.leftArrowProgress = 0;
+        }
+      }
+    },
+    closeButtonProgress: {
+      handler(value) {
+          if(value < 100) {
+            setTimeout(() => {
+              if(value >= 1 && this.closeButtonHover)
+                this.closeButtonProgress++;
+            }, 20);
+          } else {
+            setTimeout(() => {
+              this.$router.push({name: 'home'});
+              this.closeButtonProgress = 0;
+            }, 100);
+          }
+      }
+    },
+    closeButtonHover: {
+      handler(value) {
+        if(value == true) {
+          this.closeButtonProgress = 1;
+        } else {
+          this.closeButtonProgress = 0;
+        }
+      }
+    },
+    startButtonProgress: {
+      handler(value) {
+          if(value < 100) {
+            setTimeout(() => {
+              if(value >= 1 && this.startButtonHover)
+                this.startButtonProgress++;
+            }, 20);
+          } else {
+            setTimeout(() => {
+              this.start_viewing();
+              this.startButtonProgress = 0;
+            }, 100);
+          }
+      }
+    },
+    startButtonHover: {
+      handler(value) {
+        if(value == true) {
+          this.startButtonProgress = 1;
+        } else {
+          this.startButtonProgress = 0;
         }
       }
     }
@@ -300,18 +359,42 @@ export default {
     right: 0;
     z-index: 1;
 
-    width: var(--dl-size-size-medium);
-    height: var(--dl-size-size-medium);
+    width: 100px;
+    height: 100px;
     background-color: transparent;
     border-width: 0;
     background-size: contain;
-    background-repeat: no-repeat;
     background-position: center;
     align-items: center;
     justify-content: center;
     display: flex;
     margin: var(--dl-space-space-unit);
     background-image: url('@/assets/icons/exit.svg');
+    pointer-events: none;
+  }
+
+  .close-button-animated-progress {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border-width: 5px;
+    outline-color: lightgrey;
+    outline-width: 1px;
+    margin: var(--dl-space-space-unit);
+    outline-style: solid;
+  }
+
+  .close-button-animated-progress span {
+    position: relative;
+    margin: 50%;
+    display: block;
+    background: rgb(117, 117, 117);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
   }
 
   .toggle-button {
@@ -358,12 +441,30 @@ export default {
 
     background-color: white;
     font-size: 16px;
-    width: var(--dl-size-size-medium);
+    width: 100px;
     height: var(--dl-size-size-small);
     border-width: 3px;
     border-color: var(--dl-color-gray-500);
     border-radius: var(--dl-radius-radius-radius8);
     box-shadow: 0px 4px 2px 0px #595959;
+  }
+
+  .start-text {
+    position: relative;
+    z-index: 10;
+  }
+
+  .start-button span {
+    top: 0;
+    left: 0;
+    height: 100%;
+    max-width: 100%;
+    border-width: 3px;
+    border-radius: var(--dl-radius-radius-radius6);
+    display: block;
+    background: rgb(193, 193, 193);;
+    position: absolute;
+    z-index: 0 !important;
   }
 
   .arrow-box-right {
