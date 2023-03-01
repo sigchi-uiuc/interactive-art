@@ -4,7 +4,7 @@
       <loading v-model:active="loading" :is-full-page="true"/>
     </div>
     
-    <div v-if="!music_started" class="loading-text">
+    <div v-if="loading" class="loading-text">
       {{ loading_text }}
     </div>
 
