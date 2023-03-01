@@ -1,18 +1,3 @@
-
-<!-- <template>
-    <Carousel>
-        <div v-for="item in art_data" :key="item.file">
-            <slide>
-                <h2>{{item.title}}</h2>
-                link: 'assets\' + {{item.file}}
-                <img :src=link>
-                <p>{{item.artist}}</p>
-                <p>{{item.date}}</p>
-                @slideclick="handleSlideClick"> 
-            </slide>
-        </div>
-    </Carousel>
-</template> -->
 <template>
     <carousel :itemsToShow="3">
       <slide v-for="(item, index) in art_data" :key="item.file">
@@ -38,7 +23,6 @@
 <!-- ask how to format things around -->
 
 <script>
-//import { Carousel, Slide } from 'vue-carousel';
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
     const ART_DATA = require("@/assets/art_data.json")    
@@ -60,9 +44,10 @@ import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 
 <style scoped>
     .car_img {
-        width: 50%;
-        height: 50%;
+        height: 300px;
+        object-fit: contain;
     }
+    
     .view-button {
     position: relative;
     left: calc(50% - 100px);
