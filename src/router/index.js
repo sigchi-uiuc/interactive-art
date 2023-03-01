@@ -18,9 +18,10 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-    path: '/art-view',
+    path: '/art-view/:id',
     name: 'ArtView',
-    component: ArtView
+    component: ArtView,
+    props: true
   }, 
   {
     path: '/carousel-view',
@@ -32,6 +33,13 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach(async to => {
+  if (to.meta.shouldFetch) {
+    // name `data` whatever you want
+    to.meta.data = await fetchSomething()
+  }
 })
 
 export default router

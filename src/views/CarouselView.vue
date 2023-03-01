@@ -15,13 +15,13 @@
 </template> -->
 <template>
     <carousel :itemsToShow="3">
-      <slide v-for="item in art_data" :key="item.file">
+      <slide v-for="(item, index) in art_data" :key="item.file">
         <div>
             <h2>{{item.title}}</h2>
             <img class="car_img" :src="require(`@/assets/${item.file}`)">
             <p>{{item.artist}}</p>
             <p>{{item.date}}</p>
-            <router-link :to="{ name: 'ArtView'}">
+            <router-link :to="'/art-view/' + index">
                 <div class="view-button">
                     View Art
                 </div>     
@@ -53,6 +53,11 @@ import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
         data() {
             return {
                 art_data: ART_DATA
+            }
+        },
+        methods: {
+            viewArt() {
+                //this.$router.push({name:'ArtView', state:{data: 5}})
             }
         }
     }

@@ -81,6 +81,7 @@ export default {
     cursor,
     toggle
   },
+  props: ['id'],
   data () {
     return {
       music_data: undefined,
@@ -108,6 +109,10 @@ export default {
       startButtonProgress: 0,
       startButtonHover: false
     }
+  },
+  created() {
+    if(this.id != null)
+      this.image_index = this.id
   },
 
   mounted() {
