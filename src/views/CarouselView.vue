@@ -54,11 +54,6 @@ import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
             return {
                 art_data: ART_DATA
             }
-        },
-        methods: {
-            viewArt() {
-                //this.$router.push({name:'ArtView', state:{data: 5}})
-            }
         }
     }
 </script> 

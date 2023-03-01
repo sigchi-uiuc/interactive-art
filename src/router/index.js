@@ -35,11 +35,4 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach(async to => {
-  if (to.meta.shouldFetch) {
-    // name `data` whatever you want
-    to.meta.data = await fetchSomething()
-  }
-})
-
 export default router
