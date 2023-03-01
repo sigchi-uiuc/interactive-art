@@ -4,6 +4,10 @@
       <loading v-model:active="loading" :is-full-page="true"/>
     </div>
     
+    <div v-if="!music_started" class="loading-text">
+      {{ loading_text }}
+    </div>
+
     <div class="image-container">
       <toggle @toggle="change_cursor" class="toggle-button no-cursor" title="Cursor" name="CursorToggle" :toggled="cursor_on"
       @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"/> 
@@ -107,7 +111,8 @@ export default {
       closeButtonProgress: 0,
       closeButtonHover: false,
       startButtonProgress: 0,
-      startButtonHover: false
+      startButtonHover: false,
+      loading_text: ""
     }
   },
   created() {
@@ -251,6 +256,7 @@ export default {
       
       var request_url = `${this.base_url}/coords/${image_file}/${this.image_width}/${this.image_height}`
       console.log(`getting notes from backend at ${request_url}`)
+      this.loading_text = "analyzing image..."
 
       const response = await axios.get(request_url)
       this.music_data = response.data
@@ -301,6 +307,7 @@ export default {
 
       await this.load_notes()
       
+      this.loading_text = "loading piano..."
       this.synth = await new PianoMp3({
               minify: true,
               onload: () => {
@@ -607,6 +614,10 @@ export default {
 
   .right-arrow-progress span {
     left: 0;
+  }
+
+  .loading-text{
+    margin: var(--dl-space-space-unit);
   }
 
 </style>
