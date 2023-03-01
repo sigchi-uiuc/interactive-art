@@ -7,9 +7,9 @@
             <p>{{item.artist}}</p>
             <p>{{item.date}}</p>
             <router-link :to="'/art-view/' + index">
-                <div class="view-button">
+                <button class="view-button">
                     View Art
-                </div>     
+                </button>
             </router-link>
         </div>
       </slide>
@@ -49,18 +49,19 @@ import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
     }
     
     .view-button {
-    position: relative;
-    left: calc(50% - 100px);
-    top: calc(50% - 25px);
-    width: 200px;
-    height: 50px;
-    border-radius: 10px;
-    color:#2c3e50;
-    background: rgb(218, 211, 211);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+        margin: var(--dl-space-space-halfunit);
+        align-items: center;
+        justify-content: center;
+
+        background-color: white;
+        font-size: 16px;
+        width: 100px;
+        height: var(--dl-size-size-small);
+        border-width: 3px;
+        border-color: var(--dl-color-gray-500);
+        border-radius: var(--dl-radius-radius-radius8);
+        box-shadow: 0px 4px 2px 0px #595959;
+    }
 
 </style>
 
