@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <router-link :to="{ name: 'ArtView'}">
+    <router-link :to="{ name: 'CarouselView'}">
       <div class="view-button no-cursor" @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color">
         View Art
       </div>     

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ArtView from '../views/ArtView.vue'
+import CarouselView from '@/views/CarouselView.vue'
 
 const routes = [
   {
@@ -20,6 +21,11 @@ const routes = [
     path: '/art-view',
     name: 'ArtView',
     component: ArtView
+  }, 
+  {
+    path: '/carousel-view',
+    name:'CarouselView',
+    component: CarouselView
   }
 ]
 
