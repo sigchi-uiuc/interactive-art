@@ -73,7 +73,6 @@
     align-items: center;
     display: flex;
     > * {
-      cursor: pointer;
       margin: 0 5px;
     }
     &__label {
@@ -81,7 +80,7 @@
       font-weight: v-bind(fontWeight);
       font-size: v-bind(fontSize);
       #{$self}--is-disabled & {
-        cursor: not-allowed;
+        cursor: none;
       }
       #{$self}--is-dark & {
         color: white;
@@ -125,7 +124,7 @@
         will-change: left;
       }
       #{$self}--is-disabled & {
-        cursor: not-allowed;
+        cursor: none;
         opacity: 50%;
       }
       #{$self}--is-dark & {

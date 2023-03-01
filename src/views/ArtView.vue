@@ -5,11 +5,30 @@
     </div>
     
     <div class="image-container">
-      <toggle @toggle="change_cursor" class="toggle-button" title="Cursor" name="CursorToggle" :toggled="cursor_on"/> 
+      <toggle @toggle="change_cursor" class="toggle-button no-cursor" title="Cursor" name="CursorToggle" :toggled="cursor_on"
+      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"/> 
 
-      <router-link :to="{ name: 'home'}" class="close-button"></router-link> 
+      <div class="close-button-animated-progress" @:mouseover="closeButtonHover = true; cursor_color = hover_cursor_color" @:mouseleave="closeButtonHover = false; cursor_color = reg_cursor_color">
+        <span :style="{ 'width': closeButtonProgress + 'px', 'height': closeButtonProgress + 'px'}"></span>
+      </div>
+      <div class="close-button no-cursor" 
+      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"/>
 
-      <button class="lightbox-nav nav-left" @click="left_button"></button>
+      <!--<button class="arrow-box-left no-cursor" @click="left_button"
+      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color">
+      <div class="lightbox-nav nav-left no-cursor" ></div>
+      </button>
+    
+    router-link :to="{ name: 'home'}"-->
+
+      <div class="animated-progress left-arrow-progress" @:mouseover="leftArrowHover = true; cursor_color = hover_cursor_color" @:mouseleave="leftArrowHover = false; cursor_color = reg_cursor_color">
+        <span :style="{ 'width': leftArrowProgress + 'px' }"></span>
+      </div>
+
+      <button class="lightbox-nav nav-left"></button>
+
+      
+
       <img 
         class="image-style"
         :style="[!music_started ? {opacity: 0.6} : {opacity: 1}]"
@@ -19,13 +38,25 @@
         @mouseleave="stop_music"
         @mouseover="start_music_loop">
 
-      <button class="lightbox-nav nav-right" @click="right_button"></button>
+      <div class="animated-progress right-arrow-progress" @:mouseover="rightArrowHover = true; cursor_color = hover_cursor_color" @:mouseleave="rightArrowHover = false; cursor_color = reg_cursor_color">
+        <span :style="{ 'width': rightArrowProgress + 'px' }"></span>
+      </div>
+
+      <button class="lightbox-nav nav-right"></button>
+
+      <!--<button class="arrow-box-right no-cursor"
+      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color">
+      <div class="lightbox-nav nav-right no-cursor" ></div>
+      </button>-->
 
       <p class="caption">{{art_data[image_index].citation}}</p>
     </div>
 
-    <button v-if="!music_started" class="start-button" @click="start_viewing">
-      Start
+
+    <button v-if="!music_started" class="start-button no-cursor"
+    @:mouseover="startButtonHover = true; cursor_color = hover_cursor_color" @:mouseleave="startButtonHover = false; cursor_color = reg_cursor_color">
+      <span :style="{ 'width': startButtonProgress + 'px' }"></span>
+      <div class="start-text">Start</div>
     </button>
     
     <cursor v-if="cursor_on" :color="cursor_color"/>
@@ -65,7 +96,17 @@ export default {
       art_data: ART_DATA,
       image_index: 0,
       cursor_color: [0,0,0],
-      cursor_on: true
+      hover_cursor_color: [0, 200, 200],
+      reg_cursor_color: [0, 0, 0],
+      cursor_on: true,
+      rightArrowProgress: 0,
+      rightArrowHover: false,
+      leftArrowProgress: 0,
+      leftArrowHover: false,
+      closeButtonProgress: 0,
+      closeButtonHover: false,
+      startButtonProgress: 0,
+      startButtonHover: false
     }
   },
 
@@ -90,8 +131,108 @@ export default {
     window.removeEventListener("resize", this.myEventHandler);
   },
 
+  watch: {
+    rightArrowProgress: {
+      handler(value) {
+          if(value < 100) {
+            setTimeout(() => {
+              if(value >= 1 && this.rightArrowHover)
+                this.rightArrowProgress++;
+            }, 20);
+          } else {
+            setTimeout(() => {
+              this.right_button();
+              this.rightArrowProgress = 0;
+            }, 100);
+          }
+      }
+    },
+    rightArrowHover: {
+      handler(value) {
+        if(value == true) {
+          this.rightArrowProgress = 1;
+        } else {
+          this.rightArrowProgress = 0;
+        }
+      }
+    },
+    leftArrowProgress: {
+      handler(value) {
+          if(value < 100) {
+            setTimeout(() => {
+              if(value >= 1 && this.leftArrowHover)
+                this.leftArrowProgress++;
+            }, 20);
+          } else {
+            setTimeout(() => {
+              this.left_button();
+              this.leftArrowProgress = 0;
+            }, 100);
+          }
+      }
+    },
+    leftArrowHover: {
+      handler(value) {
+        if(value == true) {
+          this.leftArrowProgress = 1;
+        } else {
+          this.leftArrowProgress = 0;
+        }
+      }
+    },
+    closeButtonProgress: {
+      handler(value) {
+          if(value < 100) {
+            setTimeout(() => {
+              if(value >= 1 && this.closeButtonHover)
+                this.closeButtonProgress++;
+            }, 20);
+          } else {
+            setTimeout(() => {
+              this.$router.push({name: 'home'});
+              this.closeButtonProgress = 0;
+            }, 100);
+          }
+      }
+    },
+    closeButtonHover: {
+      handler(value) {
+        if(value == true) {
+          this.closeButtonProgress = 1;
+        } else {
+          this.closeButtonProgress = 0;
+        }
+      }
+    },
+    startButtonProgress: {
+      handler(value) {
+          if(value < 100) {
+            setTimeout(() => {
+              if(value >= 1 && this.startButtonHover)
+                this.startButtonProgress++;
+            }, 20);
+          } else {
+            setTimeout(() => {
+              this.start_viewing();
+              this.startButtonProgress = 0;
+            }, 100);
+          }
+      }
+    },
+    startButtonHover: {
+      handler(value) {
+        if(value == true) {
+          this.startButtonProgress = 1;
+        } else {
+          this.startButtonProgress = 0;
+        }
+      }
+    }
+  },
 
   methods: {
+
+
     async note_resize() {
         await this.load_notes()
         this.loading = false
@@ -201,8 +342,11 @@ export default {
 
     change_cursor() {
       this.cursor_on = !this.cursor_on
+
+      this.$emit('change_cursor')
     }
-  },
+
+  }
 
 
 }
@@ -213,21 +357,44 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
-    cursor: pointer;
     z-index: 1;
 
-    width: var(--dl-size-size-medium);
-    height: var(--dl-size-size-medium);
+    width: 100px;
+    height: 100px;
     background-color: transparent;
     border-width: 0;
     background-size: contain;
-    background-repeat: no-repeat;
     background-position: center;
     align-items: center;
     justify-content: center;
     display: flex;
     margin: var(--dl-space-space-unit);
     background-image: url('@/assets/icons/exit.svg');
+    pointer-events: none;
+  }
+
+  .close-button-animated-progress {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border-width: 5px;
+    outline-color: lightgrey;
+    outline-width: 1px;
+    margin: var(--dl-space-space-unit);
+    outline-style: solid;
+  }
+
+  .close-button-animated-progress span {
+    position: relative;
+    margin: 50%;
+    display: block;
+    background: rgb(117, 117, 117);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
   }
 
   .toggle-button {
@@ -236,7 +403,6 @@ export default {
     left: 0;
     margin: var(--dl-space-space-twounits);
     display: flex;
-    cursor: pointer;
   }
 
   .image-container {
@@ -255,7 +421,7 @@ export default {
     height: 100%;
     width: auto;
     max-width: calc(100% - 200px);
-    max-height: calc(100% - 100px);
+    max-height: calc(100% - 200px);
     object-fit: contain;
     margin-bottom: var(--dl-space-space-unit);
     margin-top: var(--dl-space-space-unit);
@@ -268,7 +434,6 @@ export default {
   }
   
   .start-button {
-    cursor: pointer;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -276,7 +441,7 @@ export default {
 
     background-color: white;
     font-size: 16px;
-    width: var(--dl-size-size-medium);
+    width: 100px;
     height: var(--dl-size-size-small);
     border-width: 3px;
     border-color: var(--dl-color-gray-500);
@@ -284,6 +449,93 @@ export default {
     box-shadow: 0px 4px 2px 0px #595959;
   }
 
+  .start-text {
+    position: relative;
+    z-index: 10;
+  }
+
+  .start-button span {
+    top: 0;
+    left: 0;
+    height: 100%;
+    max-width: 100%;
+    border-width: 3px;
+    border-radius: var(--dl-radius-radius-radius6);
+    display: block;
+    background: rgb(193, 193, 193);;
+    position: absolute;
+    z-index: 0 !important;
+  }
+
+  .arrow-box-right {
+    width: 100px;
+    height: 500px;
+    background-color: transparent;
+
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 1;
+    border-width: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 20px;
+  }
+
+  .arrow-box-left {
+    width: 100px;
+    height: 500px;
+    background-color: transparent;
+
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    z-index: 1;
+    border-width: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 20px;
+  }
+
+  /*.lightbox-nav {
+    width: var(--dl-size-size-small);
+    height: var(--dl-size-size-small);
+    background-color: transparent;
+    border-width: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }*/
+
+  .arrow-box-right:hover {
+    background-color: rgb(185, 185, 185);
+  }
+
+  .arrow-box-left:hover {
+    background-color: rgb(185, 185, 185);
+  }
+/*
+  .nav-left {
+    background-image: url('@/assets/icons/left.svg');  
+  }
+
+  .nav-right {
+    background-image: url('@/assets/icons/right.svg'); 
+  }
+*/
   .lightbox-nav {
     position: absolute;
     top: 50%;
@@ -301,15 +553,55 @@ export default {
     justify-content: center;
     display: flex;
   }
-
   .nav-left {
-    left: 20px;
+    left: 30px;
     background-image: url('@/assets/icons/left.svg');  
+    pointer-events: none;
+  }
+  .nav-right {
+    right: 30px;
+    background-image: url('@/assets/icons/right.svg'); 
+    pointer-events: none;
+
   }
 
-  .nav-right {
-    right: 20px;
-    background-image: url('@/assets/icons/right.svg'); 
+  .animated-progress {
+    position: absolute;
+    width: 100px;
+    height: 500px;
+    border-radius: 5px;
+    border-width: 5px;
+    outline-color: lightgrey;
+    outline-width: 1px;
+    outline-style: solid;
+  }
+
+  .right-arrow-progress {
+    right: 10px;
+    
+  }
+
+  .left-arrow-progress {
+    left: 10px;
+    
+  }
+
+  .animated-progress span {
+    height: 100%;
+    display: block;
+    color: purple;
+    background: rgb(117, 117, 117);
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+  }
+
+  .left-arrow-progress span {
+    right: 0;
+  }
+
+  .right-arrow-progress span {
+    left: 0;
   }
 
 </style>
