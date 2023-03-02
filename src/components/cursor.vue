@@ -1,5 +1,5 @@
 <template>
-    <div
+    <div v-if="initial_mouse_move"
       class="cursor-circle"
       :style="{ left: x + 'px', top: y + 'px', 'background-color': 'rgba(' + color.toString() + ',' + transparency + ')'}"
     ></div>
@@ -17,7 +17,8 @@
       return {
         x: 0,
         y: 0,
-        transparency: '0.6'
+        transparency: '0.6',
+        initial_mouse_move: false
       };
     },
     mounted() {
@@ -28,6 +29,7 @@
     },
     methods: {
       updatePosition(event) {
+        this.initial_mouse_move = true
         this.x = event.clientX - 30;
         this.y = event.clientY - 30;
       }
