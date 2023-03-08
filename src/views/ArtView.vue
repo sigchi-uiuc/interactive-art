@@ -343,12 +343,14 @@ export default {
     left_button() {
       var new_index = this.calc_index(this.image_index - 1, this.art_data.length)
       this.image_index = new_index
+      this.$router.push('/art-view/' + this.image_index);
       this.music_started = false
     },
 
     right_button() {
       var new_index = this.calc_index(this.image_index + 1, this.art_data.length)
       this.image_index = new_index
+      this.$router.push('/art-view/' + this.image_index);
       this.music_started = false
     },
 
@@ -433,7 +435,7 @@ export default {
     height: 100%;
     width: auto;
     max-width: calc(100% - 200px);
-    max-height: calc(100% - 200px);
+    max-height: calc(100% - 50px);
     object-fit: contain;
     margin-bottom: var(--dl-space-space-unit);
     margin-top: var(--dl-space-space-unit);
@@ -580,7 +582,7 @@ export default {
   .animated-progress {
     position: absolute;
     width: 100px;
-    height: 500px;
+    height: 300px;
     border-radius: 5px;
     border-width: 5px;
     outline-color: lightgrey;
