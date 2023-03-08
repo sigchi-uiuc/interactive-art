@@ -343,12 +343,14 @@ export default {
     left_button() {
       var new_index = this.calc_index(this.image_index - 1, this.art_data.length)
       this.image_index = new_index
+      this.$router.push('/art-view/' + this.image_index);
       this.music_started = false
     },
 
     right_button() {
       var new_index = this.calc_index(this.image_index + 1, this.art_data.length)
       this.image_index = new_index
+      this.$router.push('/art-view/' + this.image_index);
       this.music_started = false
     },
 
