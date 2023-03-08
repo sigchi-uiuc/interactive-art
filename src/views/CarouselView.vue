@@ -6,11 +6,11 @@
             <img class="car_img" :src="require(`@/assets/${item.file}`)">
             <p>{{item.artist}}</p>
             <p>{{item.date}}</p>
-            <router-link :to="'/art-view/' + index">
-                <button class="view-button">
-                    View Art
+            <!--<router-link :to="'/art-view/' + index">-->
+                <button class="view-button" @:mouseover="viewArtButtonHover = true; artIndex =index;" @:mouseleave="viewArtButtonHover = false;">
+                    <span :id="'art/' + index"></span>
+                    <div class="view-art-text"> View Art </div>
                 </button>
-            </router-link>
         </div>
       </slide>
   
@@ -36,10 +36,50 @@ import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
         },
         data() {
             return {
-                art_data: ART_DATA
+                art_data: ART_DATA,
+                viewArtButtonProgress: 0,
+                viewArtButtonHover: false,
+                artIndex: 0
+            }
+        },
+        watch: {
+            viewArtButtonProgress: {
+                handler(value) {
+                    if(value < 100) {
+                        setTimeout(() => {
+                        if(value >= 1 && this.viewArtButtonHover)
+                            this.viewArtButtonProgress++;
+                            let greyButton = document.getElementById('art/' + this.artIndex);
+                            greyButton.style.width = this.viewArtButtonProgress + 'px';
+                        }, 20);
+                    } else {
+                        setTimeout(() => {
+                        this.$router.push('/art-view/' + this.artIndex);
+                        this.viewArtButtonProgress = 0;
+                        let greyButton = document.getElementById('art/' + this.artIndex);
+                        greyButton.style.width = this.viewArtButtonProgress + 'px';
+
+                        }, 100);
+                    }
+                }
+            },
+
+            viewArtButtonHover: {
+                handler(value) {
+                if(value == true) {
+                    this.viewArtButtonProgress = 1;
+                    let greyButton = document.getElementById('art/' + this.artIndex);
+                    greyButton.style.width = this.viewArtButtonProgress + 'px';
+                } else {
+                    this.viewArtButtonProgress = 0;
+                    let greyButton = document.getElementById('art/' + this.artIndex);
+                    greyButton.style.width = this.viewArtButtonProgress + 'px';
+                }
+            }
             }
         }
-    }
+    } 
+
 </script> 
 
 <style scoped>
@@ -61,6 +101,25 @@ import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
         border-color: var(--dl-color-gray-500);
         border-radius: var(--dl-radius-radius-radius8);
         box-shadow: 0px 4px 2px 0px #595959;
+        position: relative;
+    }
+
+    .view-art-text {
+    position: relative;
+    z-index: 10;
+  }
+
+    .view-button span {
+        top: 0;
+        left: 0;
+        height: 100%;
+        max-width: 100%;
+        border-width: 3px;
+        border-radius: var(--dl-radius-radius-radius6);
+        display: block;
+        background: rgb(193, 193, 193);;
+        position: absolute;
+        z-index: 0 !important; 
     }
 
 </style>
