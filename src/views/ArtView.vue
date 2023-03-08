@@ -101,7 +101,7 @@ export default {
       art_data: ART_DATA,
       image_index: 0,
       cursor_color: [0,0,0],
-      hover_cursor_color: [0, 200, 200],
+      hover_cursor_color: [50, 168, 80],
       reg_cursor_color: [0, 0, 0],
       cursor_on: true,
       rightArrowProgress: 0,
