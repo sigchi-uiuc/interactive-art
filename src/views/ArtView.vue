@@ -433,7 +433,7 @@ export default {
     height: 100%;
     width: auto;
     max-width: calc(100% - 200px);
-    max-height: calc(100% - 200px);
+    max-height: calc(100% - 50px);
     object-fit: contain;
     margin-bottom: var(--dl-space-space-unit);
     margin-top: var(--dl-space-space-unit);
@@ -580,7 +580,7 @@ export default {
   .animated-progress {
     position: absolute;
     width: 100px;
-    height: 500px;
+    height: 300px;
     border-radius: 5px;
     border-width: 5px;
     outline-color: lightgrey;
