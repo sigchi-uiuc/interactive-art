@@ -12,12 +12,13 @@
       <toggle @toggle="change_cursor" class="toggle-button no-cursor" title="Cursor" name="CursorToggle" :toggled="cursor_on"
       @:mouseover="button_hover = true" @:mouseleave="button_hover = false"/> 
 
-      <div class="close-button-animated-progress" @:mouseover="closeButtonHover = true; button_hover = true" @:mouseleave="closeButtonHover = false; button_hover = false">
+      <div class="close-button-animated-progress" @:mouseover="closeButtonHover = true; button_hover = true" 
+                                                  @:mouseleave="closeButtonHover = false; button_hover = false"
+                                                  @:click="this.$router.push({name: 'home'})">
         <span :style="{ 'width': closeButtonProgress + 'px', 'height': closeButtonProgress + 'px'}"></span>
       </div>
 
-      <div class="close-button no-cursor" 
-      @:mouseover="button_hover = true" @:mouseleave="button_hover = false"/>
+      <div class="close-button no-cursor"/>
 
       <div class="animated-progress left-arrow-progress" @:mouseover="leftArrowHover = true; button_hover = true" @:mouseleave="leftArrowHover = false; button_hover=false; cursor_color = undefined">
         <span :style="{ 'width': leftArrowProgress + 'px' }"></span>

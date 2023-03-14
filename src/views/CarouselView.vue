@@ -6,8 +6,9 @@
                   <img class="car_img" :src="require(`@/assets/${item.file}`)">
                   <p>{{item.artist}}</p>
                   <p>{{item.date}}</p>
-                  <!--<router-link :to="'/art-view/' + index">-->
-                      <button class="view-button" @:mouseover="viewArtButtonHover = true; artIndex =index;" @:mouseleave="viewArtButtonHover = false;">
+                      <button class="view-button" @:mouseover="viewArtButtonHover = true; artIndex = index; button_hover=true" 
+                                                  @:mouseleave="viewArtButtonHover = false; button_hover=false"
+                                                  @:click="this.$router.push('/art-view/' + this.artIndex)">
                           <span :id="'art/' + index"></span>
                           <div class="view-art-text"> View Art </div>
                       </button>
@@ -19,7 +20,7 @@
               <pagination />
             </template>
           </carousel>
-        <cursor />
+        <cursor :hover_on="button_hover"/>
   </template>
 
 <script>
@@ -43,7 +44,8 @@ const ART_DATA = require("@/assets/art_data.json")
                 art_data: ART_DATA,
                 viewArtButtonProgress: 0,
                 viewArtButtonHover: false,
-                artIndex: 0
+                artIndex: 0,
+                button_hover: false
             }
         },
         watch: {
