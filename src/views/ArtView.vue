@@ -87,7 +87,7 @@ export default {
       base_url: "",
       art_data: ART_DATA,
       image_index: 0,
-      cursor_color: [0,0,0],
+      cursor_color: undefined,
       button_hover: false,
       cursor_on: true,
       rightArrowProgress: 0,
