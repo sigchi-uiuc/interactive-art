@@ -3,10 +3,6 @@
     <div class="vl-parent">
       <loading v-model:active="loading" :is-full-page="true"/>
     </div>
-    
-    <div v-if="loading" class="loading-text">
-      {{ loading_text }}
-    </div>
 
     <div class="image-container">
       <toggle @toggle="change_cursor" class="toggle-button no-cursor" title="Cursor" name="CursorToggle" :toggled="cursor_on"
@@ -45,7 +41,10 @@
       </div>
       <button class="lightbox-nav nav-right"></button>
 
-      <p class="caption">{{art_data[image_index].citation}}</p>
+      <p v-if="!loading" class="caption">{{art_data[image_index].citation}}</p>
+      <p v-else class="caption">
+        {{ loading_text }}
+      </p>
     </div>
 
 
@@ -430,8 +429,8 @@ export default {
     max-width: calc(100% - 200px);
     max-height: calc(100% - 50px);
     object-fit: contain;
+    margin-top: var(--dl-space-space-halfunit);
     margin-bottom: var(--dl-space-space-unit);
-    margin-top: var(--dl-space-space-unit);
   }
 
   .caption {
@@ -609,10 +608,6 @@ export default {
 
   .right-arrow-progress span {
     left: 0;
-  }
-
-  .loading-text{
-    margin: var(--dl-space-space-unit);
   }
 
 </style>
