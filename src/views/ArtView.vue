@@ -12,18 +12,20 @@
       <toggle @toggle="change_cursor" class="toggle-button no-cursor" title="Cursor" name="CursorToggle" :toggled="cursor_on"
       @:mouseover="button_hover = true" @:mouseleave="button_hover = false"/> 
 
-      <div class="close-button-animated-progress" @:mouseover="closeButtonHover = true; button_hover = true" 
-                                                  @:mouseleave="closeButtonHover = false; button_hover = false"
-                                                  @:click="this.$router.push({name: 'home'})">
+      <div class="close-button-animated-progress" 
+          @:mouseover="closeButtonHover = true; button_hover = true"                              
+          @:mouseleave="closeButtonHover = false; button_hover = false"               
+          @:click="this.$router.push({name: 'home'})">
         <span :style="{ 'width': closeButtonProgress + 'px', 'height': closeButtonProgress + 'px'}"></span>
       </div>
-
       <div class="close-button no-cursor"/>
 
-      <div class="animated-progress left-arrow-progress" @:mouseover="leftArrowHover = true; button_hover = true" @:mouseleave="leftArrowHover = false; button_hover=false; cursor_color = undefined">
+      <div class="animated-progress left-arrow-progress" 
+          @:mouseover="leftArrowHover = true; button_hover = true"                   
+          @:mouseleave="leftArrowHover = false; button_hover=false; cursor_color = undefined"
+          @:click="left_button">
         <span :style="{ 'width': leftArrowProgress + 'px' }"></span>
       </div>
-
       <button class="lightbox-nav nav-left"></button>
 
       <img 
@@ -35,10 +37,12 @@
         @mouseleave="stop_music"
         @mouseover="start_music_loop">
 
-      <div class="animated-progress right-arrow-progress" @:mouseover="rightArrowHover = true; button_hover = true" @:mouseleave="rightArrowHover = false; button_hover=false; cursor_color = undefined">
+      <div class="animated-progress right-arrow-progress" 
+          @:mouseover="rightArrowHover = true; button_hover = true" 
+          @:mouseleave="rightArrowHover = false; button_hover=false; cursor_color = undefined"
+          @:click="right_button">
         <span :style="{ 'width': rightArrowProgress + 'px' }"></span>
       </div>
-
       <button class="lightbox-nav nav-right"></button>
 
       <p class="caption">{{art_data[image_index].citation}}</p>
@@ -46,7 +50,9 @@
 
 
     <button v-if="!music_started" class="start-button no-cursor"
-    @:mouseover="startButtonHover = true; button_hover = true" @:mouseleave="startButtonHover = false; button_hover=false; cursor_color = undefined">
+      @:mouseover="startButtonHover = true; button_hover = true" 
+      @:mouseleave="startButtonHover = false; button_hover=false; cursor_color = undefined"
+      @:click="start_viewing">
       <span :style="{ 'width': startButtonProgress + 'px' }"></span>
       <div class="start-text">Start</div>
     </button>
@@ -139,7 +145,6 @@ export default {
           } else {
             setTimeout(() => {
               this.right_button();
-              this.rightArrowProgress = 0;
             }, 100);
           }
       }
@@ -163,7 +168,6 @@ export default {
           } else {
             setTimeout(() => {
               this.left_button();
-              this.leftArrowProgress = 0;
             }, 100);
           }
       }
@@ -211,7 +215,6 @@ export default {
           } else {
             setTimeout(() => {
               this.start_viewing();
-              this.startButtonProgress = 0;
             }, 100);
           }
       }
@@ -289,7 +292,8 @@ export default {
       this.painting_hover = false
     },
 
-    async start_viewing() {      
+    async start_viewing() { 
+      this.startButtonProgress = 0;     
       this.loading = true
 
       await this.load_notes()
@@ -328,6 +332,7 @@ export default {
     },
 
     left_button() {
+      this.leftArrowProgress = 0
       var new_index = this.calc_index(this.image_index - 1, this.art_data.length)
       this.image_index = new_index
       this.$router.push('/art-view/' + this.image_index);
@@ -335,6 +340,7 @@ export default {
     },
 
     right_button() {
+      this.rightArrowProgress = 0
       var new_index = this.calc_index(this.image_index + 1, this.art_data.length)
       this.image_index = new_index
       this.$router.push('/art-view/' + this.image_index);
