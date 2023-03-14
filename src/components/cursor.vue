@@ -1,7 +1,8 @@
 <template>
     <div v-if="initial_mouse_move"
       class="cursor-circle"
-      :style="{ left: x + 'px', top: y + 'px', 'background-color': 'rgba(' + color.toString() + ',' + transparency + ')'}"
+      :style="[hover_on ? { left: x + 'px', top: y + 'px', 'background-color': 'rgba(' + hover_color.toString() + ',' + transparency + ')'} :
+                          { left: x + 'px', top: y + 'px', 'background-color': 'rgba(' + color.toString() + ',' + transparency + ')'}]"
     ></div>
   </template>
   
@@ -11,6 +12,10 @@
         color: {
             type: Array,
             default: [0,0,0]
+        },
+        hover_on: {
+          type: Boolean,
+          default: false
         }
     },
     data() {
@@ -18,7 +23,8 @@
         x: 0,
         y: 0,
         transparency: '0.6',
-        initial_mouse_move: false
+        initial_mouse_move: false,
+        hover_color: [50, 168, 80]
       };
     },
     mounted() {

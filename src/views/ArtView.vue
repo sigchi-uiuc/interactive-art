@@ -10,28 +10,20 @@
 
     <div class="image-container">
       <toggle @toggle="change_cursor" class="toggle-button no-cursor" title="Cursor" name="CursorToggle" :toggled="cursor_on"
-      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"/> 
+      @:mouseover="button_hover = true" @:mouseleave="button_hover = false"/> 
 
-      <div class="close-button-animated-progress" @:mouseover="closeButtonHover = true; cursor_color = hover_cursor_color" @:mouseleave="closeButtonHover = false; cursor_color = reg_cursor_color">
+      <div class="close-button-animated-progress" @:mouseover="closeButtonHover = true; button_hover = true" @:mouseleave="closeButtonHover = false; button_hover = false">
         <span :style="{ 'width': closeButtonProgress + 'px', 'height': closeButtonProgress + 'px'}"></span>
       </div>
+
       <div class="close-button no-cursor" 
-      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color"/>
+      @:mouseover="button_hover = true" @:mouseleave="button_hover = false"/>
 
-      <!--<button class="arrow-box-left no-cursor" @click="left_button"
-      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color">
-      <div class="lightbox-nav nav-left no-cursor" ></div>
-      </button>
-    
-    router-link :to="{ name: 'home'}"-->
-
-      <div class="animated-progress left-arrow-progress" @:mouseover="leftArrowHover = true; cursor_color = hover_cursor_color" @:mouseleave="leftArrowHover = false; cursor_color = reg_cursor_color">
+      <div class="animated-progress left-arrow-progress" @:mouseover="leftArrowHover = true; button_hover = true" @:mouseleave="leftArrowHover = false; button_hover=false; cursor_color = undefined">
         <span :style="{ 'width': leftArrowProgress + 'px' }"></span>
       </div>
 
       <button class="lightbox-nav nav-left"></button>
-
-      
 
       <img 
         class="image-style"
@@ -42,28 +34,23 @@
         @mouseleave="stop_music"
         @mouseover="start_music_loop">
 
-      <div class="animated-progress right-arrow-progress" @:mouseover="rightArrowHover = true; cursor_color = hover_cursor_color" @:mouseleave="rightArrowHover = false; cursor_color = reg_cursor_color">
+      <div class="animated-progress right-arrow-progress" @:mouseover="rightArrowHover = true; button_hover = true" @:mouseleave="rightArrowHover = false; button_hover=false; cursor_color = undefined">
         <span :style="{ 'width': rightArrowProgress + 'px' }"></span>
       </div>
 
       <button class="lightbox-nav nav-right"></button>
-
-      <!--<button class="arrow-box-right no-cursor"
-      @:mouseover="cursor_color = hover_cursor_color" @:mouseleave="cursor_color = reg_cursor_color">
-      <div class="lightbox-nav nav-right no-cursor" ></div>
-      </button>-->
 
       <p class="caption">{{art_data[image_index].citation}}</p>
     </div>
 
 
     <button v-if="!music_started" class="start-button no-cursor"
-    @:mouseover="startButtonHover = true; cursor_color = hover_cursor_color" @:mouseleave="startButtonHover = false; cursor_color = reg_cursor_color">
+    @:mouseover="startButtonHover = true; button_hover = true" @:mouseleave="startButtonHover = false; button_hover=false; cursor_color = undefined">
       <span :style="{ 'width': startButtonProgress + 'px' }"></span>
       <div class="start-text">Start</div>
     </button>
     
-    <cursor v-if="cursor_on" :color="cursor_color"/>
+    <cursor v-if="cursor_on" :color="cursor_color" :hover_on="button_hover"/>
   </div>
 </template>
 
@@ -101,8 +88,7 @@ export default {
       art_data: ART_DATA,
       image_index: 0,
       cursor_color: [0,0,0],
-      hover_cursor_color: [50, 168, 80],
-      reg_cursor_color: [0, 0, 0],
+      button_hover: false,
       cursor_on: true,
       rightArrowProgress: 0,
       rightArrowHover: false,
