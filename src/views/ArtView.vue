@@ -298,7 +298,6 @@ export default {
                 console.log("audio samples loaded") 
                 this.loading = false
                 this.music_started = true
-                this.start_music_loop()
               }
           }).toDestination() 
   },
