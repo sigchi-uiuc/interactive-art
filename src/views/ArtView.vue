@@ -16,7 +16,7 @@
       <div class="animated-progress left-arrow-progress" 
           @:mouseover="leftArrowHover = true; button_hover = true"                   
           @:mouseleave="leftArrowHover = false; button_hover=false; cursor_color = undefined"
-          @:click="left_button">
+          @:click="leftArrowProgress = 0; left_button(); ">
         <span :style="{ 'width': leftArrowProgress + 'px' }"></span>
       </div>
       <button class="lightbox-nav nav-left"></button>
@@ -33,7 +33,7 @@
       <div class="animated-progress right-arrow-progress" 
           @:mouseover="rightArrowHover = true; button_hover = true" 
           @:mouseleave="rightArrowHover = false; button_hover=false; cursor_color = undefined"
-          @:click="right_button">
+          @:click=" rightArrowProgress = 0; right_button();">
         <span :style="{ 'width': rightArrowProgress + 'px' }"></span>
       </div>
       <button class="lightbox-nav nav-right"></button>
@@ -137,6 +137,7 @@ export default {
             }, 20);
           } else {
             setTimeout(() => {
+              this.rightArrowProgress = 1;
               this.right_button();
             }, 100);
           }
@@ -160,6 +161,7 @@ export default {
             }, 20);
           } else {
             setTimeout(() => {
+              this.leftArrowProgress = 1;
               this.left_button();
             }, 100);
           }
@@ -224,8 +226,6 @@ export default {
   },
 
   methods: {
-
-
     async note_resize() {
         await this.load_notes()
         this.loading = false
@@ -325,7 +325,6 @@ export default {
     },
 
     left_button() {
-      this.leftArrowProgress = 0
       var new_index = this.calc_index(this.image_index - 1, this.art_data.length)
       this.image_index = new_index
       this.$router.push('/art-view/' + this.image_index);
@@ -333,7 +332,6 @@ export default {
     },
 
     right_button() {
-      this.rightArrowProgress = 0
       var new_index = this.calc_index(this.image_index + 1, this.art_data.length)
       this.image_index = new_index
       this.$router.push('/art-view/' + this.image_index);
