@@ -5,9 +5,6 @@
     </div>
 
     <div class="image-container">
-      <toggle @toggle="change_cursor" class="toggle-button no-cursor" title="Cursor" name="CursorToggle" :toggled="cursor_on"
-      @:mouseover="button_hover = true" @:mouseleave="button_hover = false"/> 
-
       <div class="close-button-animated-progress" 
           @:mouseover="closeButtonHover = true; button_hover = true"                              
           @:mouseleave="closeButtonHover = false; button_hover = false"               
@@ -56,7 +53,7 @@
       <div class="start-text">Start</div>
     </button>
     
-    <cursor v-if="cursor_on" :color="cursor_color" :hover_on="button_hover"/>
+    <cursor :color="cursor_color" :hover_on="button_hover"/>
   </div>
 </template>
 
@@ -66,7 +63,6 @@ import 'vue-loading-overlay/dist/css/index.css'
 import axios from 'axios'
 import PianoMp3 from 'tonejs-instrument-piano-mp3'
 import cursor from '@/components/cursor.vue'
-import toggle from '@/components/toggle.vue'
 
 const ART_DATA = require("@/assets/art_data.json")
 const BASE_URL = process.env.VUE_APP_BASE_URL
@@ -75,8 +71,7 @@ export default {
   name: 'ArtView',
   components: {
     Loading,
-    cursor,
-    toggle
+    cursor
   },
   props: ['id'],
   data () {
@@ -95,7 +90,6 @@ export default {
       image_index: 0,
       cursor_color: undefined,
       button_hover: false,
-      cursor_on: true,
       rightArrowProgress: 0,
       rightArrowHover: false,
       leftArrowProgress: 0,
@@ -344,14 +338,7 @@ export default {
       this.image_index = new_index
       this.$router.push('/art-view/' + this.image_index);
       this.music_started = false
-    },
-
-    change_cursor() {
-      this.cursor_on = !this.cursor_on
-
-      this.$emit('change_cursor')
     }
-
   }
 
 
