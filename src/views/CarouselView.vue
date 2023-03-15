@@ -14,7 +14,7 @@
 
         <div class="info-text">
             <h2 class="info-text-style">
-                This is how you use Melodic Eyes, I would give you better instructions, but I can't think of how to phrase it.
+                Hear what you see, as the colors in the section of the painting you are looking at are transformed into piano chords.
             </h2>
         </div>
 
