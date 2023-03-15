@@ -6,11 +6,17 @@
                     Melodic Eyes
                 </h1>
             </div>
-            <button class="learn-button">
+            <button class="learn-button" @:click="this.$router.push('about')">
                 Learn More
             </button>
         </div>
         <hr class="divider">
+
+        <div class="info-text">
+            <h2 class="info-text-style">
+                This is how you use Melodic Eyes, I would give you better instructions, but I can't think of how to phrase it.
+            </h2>
+        </div>
 
         <carousel :itemsToShow="3">
             <slide v-for="(item, index) in art_data" :key="item.file">
@@ -32,7 +38,6 @@
         
             <template #addons>
               <navigation />
-              <pagination />
             </template>
           </carousel>
         <cursor :hover_on="button_hover"/>
@@ -137,6 +142,10 @@ const ART_DATA = require("@/assets/art_data.json")
         position: relative;
     }
 
+    .info-text {
+        margin-bottom: 35px;
+    }
+
     .divider {
         margin-left: var(--dl-space-space-unit);
         margin-right: var(--dl-space-space-unit);
@@ -151,7 +160,7 @@ const ART_DATA = require("@/assets/art_data.json")
         overflow: hidden;
         position: relative;
         width: 410px;
-        height: 500px;
+        height: 450px;
         margin-bottom: var(--dl-space-space-unit);
         margin-top: var(--dl-space-space-unit);
     }
