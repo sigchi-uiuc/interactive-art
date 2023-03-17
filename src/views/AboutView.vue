@@ -1,4 +1,5 @@
 <template>
+  <div class="wrapper">
   <div class="nav-bar">
             <div class="logo-container">
                 <img :src="require('@/assets/icons/eyes.png')" class="logo">
@@ -7,7 +8,7 @@
                 </h1>
             </div>
             <button class="learn-button" @:click="this.$router.push('/')">
-                Home Page
+                Try Now
             </button>
   </div>
   <hr class="divider">
@@ -88,10 +89,15 @@
   <div class="info-5">
         <h4> Project designed by the SigCHI@UIUC 2023 team </h4>
     </div>
+  </div>
 </template>
 
 
 <style scoped>
+
+.wrapper {
+    cursor: default;
+}
 
 template {
     margin: 0%;
@@ -213,6 +219,11 @@ h4 {
         border-radius: var(--dl-radius-radius-radius8);
         box-shadow: 0px 4px 2px 0px #595959;
         position: relative;
+        cursor: pointer;
+    }
+
+    .learn-button:hover {
+        background-color: white;
     }
 
     .divider {
@@ -253,6 +264,7 @@ h4 {
         border-radius: 10px;
         box-sizing: border-box;
         box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+        cursor: pointer;
     }
 
     .box {
@@ -265,6 +277,7 @@ h4 {
     .link1:hover .box {
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6);
         background-color: rgba(50, 168, 80, 0.6);
+        border-radius: 10px;
     }
 
     .link1:hover .box a {
