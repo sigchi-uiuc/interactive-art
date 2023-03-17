@@ -6,7 +6,10 @@
                     Melodic Eyes
                 </h1>
             </div>
-            <button class="learn-button" @:click="this.$router.push('about')">
+            <button class="learn-button" 
+                @:click="this.$router.push('about')"
+                @:mouseover="this.cursor_color = [255,255,255]"
+                @:mouseleave="this.cursor_color = undefined">
                 Learn More
             </button>
         </div>
@@ -40,7 +43,7 @@
               <navigation />
             </template>
           </carousel>
-        <cursor :hover_on="button_hover"/>
+        <cursor :hover_on="button_hover" :color="cursor_color"/>
   </template>
 
 <script>
@@ -65,7 +68,8 @@ const ART_DATA = require("@/assets/art_data.json")
                 viewArtButtonProgress: 0,
                 viewArtButtonHover: false,
                 artIndex: 0,
-                button_hover: false
+                button_hover: false,
+                cursor_color: undefined
             }
         },
         watch: {
@@ -133,13 +137,17 @@ const ART_DATA = require("@/assets/art_data.json")
 
         background-color: rgba(50, 168, 80, 0.6);
         font-size: 16px;
-        width: 100px;
+        width: 120px;
         height: var(--dl-size-size-small);
         border-width: 3px;
         border-color: var(--dl-color-gray-500);
         border-radius: var(--dl-radius-radius-radius8);
         box-shadow: 0px 4px 2px 0px #595959;
         position: relative;
+    }
+
+    .learn-button:hover {
+        background-color: white;
     }
 
     .info-text {
