@@ -19,6 +19,14 @@
             <h2 class="info-text-style">
                 Hear what you see, as the colors in the section of the painting you are looking at are transformed into piano chords.
             </h2>
+            <div class="alert-container">
+                <alert :alert_height="25">
+
+                </alert>
+            </div>
+            <!-- <p>
+                Make sure your browser autoplay is on!
+            </p> -->
         </div>
 
         <carousel :itemsToShow="3">
@@ -50,6 +58,7 @@
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 import cursor from '@/components/cursor.vue'
+import alert from '@/components/alert.vue'
 
 const ART_DATA = require("@/assets/art_data.json")    
 
@@ -59,6 +68,7 @@ const ART_DATA = require("@/assets/art_data.json")
             Carousel,
             Slide,
             cursor,
+            alert,
             Pagination,
             Navigation,
         },
@@ -151,7 +161,23 @@ const ART_DATA = require("@/assets/art_data.json")
     }
 
     .info-text {
-        margin-bottom: 35px;
+        margin-bottom: 0px;
+
+        flex: 0 0 auto;
+        width: auto;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .info-text-style {
+        align-self: center;
+        text-align: center;
+    }
+
+    .alert-container {
+        width: 500px;
+        align-self: center;
     }
 
     .divider {
