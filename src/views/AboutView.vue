@@ -55,7 +55,7 @@
         <div class="link"> 
             <div class="link1"> <div class="box"> <a href="https://acm.illinois.edu/"> ACM Website </a> </div> </div>
             <div class="link1"> <div class="box"> <a href="https://eohillinois.org/?utm_source=Google&utm_medium=Search&utm_campaign=EOH2023&gclid=CjwKCAjw_MqgBhAGEiwAnYOAeqjudnf1At9Ix4WJLyQj9p0yqzHRJVjDwXPbQkXoUjSJ2IBR4xf7jhoCZ-MQAvD_BwE"> EOH 2023 Website </a> </div> </div>
-            <div class="link1"> <div class="box"> <a href="https://sigchi.acm.illinois.edu/"> SIGCHI Website </a> </div> </div>
+            <div class="link1"> <div class="box"> <a href="https://discord.gg/XRShsPCAQ3"> SIGCHI Discord </a> </div> </div>
         </div>
         <br>
     </div>
@@ -63,27 +63,30 @@
     <div class="border"></div>
 
     <div class="info-4">
-        <h1> Info About Members</h1>
-        <h3> Current and Past Leads </h3>
+        <h1>Members</h1>
+        <h3> Project Lead </h3>
         <div class="leads"> 
-            <div class="lead1"> <div class="boxes"> Mitchell Bifeld <div class="desc">Current Lead </div> </div> </div>
-            <div class="lead1"> <div class="boxes"> Abhimanyu Thosar <div class="desc">Past Lead </div> </div> </div>
-            <div class="lead1"> <div class="boxes"> Swathi Ram <div class="desc">Past Lead </div> </div> </div>
-            <div class="lead1"> <div class="boxes"> Jeffrey Tsai <div class="desc">Past Lead </div> </div> </div>
+            <div></div>
+            <div class="lead1"> <div class="boxes"> Mitchell Bifeld </div> </div>
+            <div></div>
         </div>
         <h3> UI Team </h3>
         <!-- <div class="ui"> -->
             <div class="members"> 
-                <div class="lead1"> <div class="boxes"> Aditi </div> </div>
-                <div class="lead1"> <div class="boxes"> Ethan </div> </div>
+                <div class="lead1"> <div class="boxes"> Ethan Grinberg </div> </div>
+                <div class="lead1"> <div class="boxes"> Aditi Shrivastava </div> </div>
                 <div class="lead1"> <div class="boxes"> Karthik </div> </div>
             </div>
             <div class="members">
                 <div class="lead1"> <div class="boxes"> Rohith </div> </div>
                 <div class="lead1"> <div class="boxes"> Mari </div> </div>
-                <div class="lead1"> <div class="boxes"> Will </div> </div>
+                <div class="lead1"> <div class="boxes"> Will Schermer </div> </div>
             </div>
-        <!-- </div> -->
+        <h3> Infrastructure Team </h3>
+            <div class="members"> 
+                <div class="lead1"> <div class="boxes"> Tyler Jurczyk </div> </div>
+                <div class="lead1"> <div class="boxes"> Nathan Chung </div> </div>
+            </div>
     </div>
   </div>
   <div class="info-5">
@@ -301,7 +304,7 @@ h4 {
         flex-wrap: wrap;
         width: 100%;
         justify-content: center;
-        margin-top: 2.5%;
+        margin-top: 1%;
     }
 
     .members {
@@ -310,6 +313,7 @@ h4 {
         flex-wrap: wrap;
         width: 100%;
         justify-content: center;
+        margin-top: 1.5%;
     }
 
     .members:last-child {
@@ -335,6 +339,7 @@ h4 {
         margin-left: 5%;
         margin-right: 5%;
         margin-bottom: 2%;
+        max-width: 300px;
         
     }
 
