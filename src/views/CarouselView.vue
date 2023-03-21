@@ -329,7 +329,8 @@ const ART_DATA = require("@/assets/art_data.json")
 
     .slide-arrow {
         position: absolute;
-        top: calc(50% - 120px) !important;
+        top: calc(210px) !important;
+        
         width: 70px;
     }
 
