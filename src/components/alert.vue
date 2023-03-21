@@ -44,6 +44,7 @@
     align-items: flex-start;
     border-radius: var(--dl-radius-radius-radius8);
     background-color: rgba(7, 19, 24, 0.888);
+    justify-content: center;
   }
   .alert-icon {
     fill: #25A6E0;
