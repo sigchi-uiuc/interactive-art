@@ -21,9 +21,9 @@
             </h2>
         </div>
 
-        <carousel :itemsToShow="3">
+        <carousel ref="artCarousel" :itemsToShow="3" :transition="500">
             <slide v-for="(item, index) in art_data" :key="item.file">
-              <div class="card-container">
+              <div class="card-container carousel__item">
                     <h3>{{item.title}}</h3>
 
                     <img class="car_img" :src="require(`@/assets/${item.file}`)">
@@ -32,7 +32,7 @@
                         <button class="view-button" @:mouseover="viewArtButtonHover = true; artIndex = index; button_hover=true" 
                                                     @:mouseleave="viewArtButtonHover = false; button_hover=false"
                                                     @:click="this.$router.push('/art-view/' + this.artIndex)">
-                            <span :id="'art/' + index"></span>
+                            <span :id="'art/' + index"></span> <!--Grey button on hover-->
                             <div class="view-art-text"> View Art </div>
                         </button>
                     </div>
@@ -47,6 +47,25 @@
         <div class="alert-container">
             <alert :alert_height="25"> </alert>
         </div>
+
+        <div class="animated-progress left-arrow-progress slide-arrow" 
+            @:mouseover="leftArrowHover = true; button_hover = true"                   
+            @:mouseleave="leftArrowHover = false; button_hover=false; cursor_color = undefined"
+            @:click="leftArrowProgress = 0; slide_left(); ">
+            <span :style="{ 'width': leftArrowProgress + 'px' }"></span>
+            <button class="lightbox-nav nav-left"></button>
+        </div>
+        
+
+        <div class="animated-progress right-arrow-progress slide-arrow" 
+            @:mouseover="rightArrowHover = true; button_hover = true" 
+            @:mouseleave="rightArrowHover = false; button_hover=false; cursor_color = undefined"
+            @:click=" rightArrowProgress = 0; slide_right();">
+            <span :style="{ 'width': rightArrowProgress + 'px' }"></span>
+            <button class="lightbox-nav nav-right"></button>
+        </div>
+        
+
         <cursor :hover_on="button_hover" :color="cursor_color"/>
   </template>
 
@@ -56,7 +75,9 @@ import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 import cursor from '@/components/cursor.vue'
 import alert from '@/components/alert.vue'
 
+
 const ART_DATA = require("@/assets/art_data.json")    
+
 
     export default {
         name: 'CarouselView',
@@ -75,7 +96,11 @@ const ART_DATA = require("@/assets/art_data.json")
                 viewArtButtonHover: false,
                 artIndex: 0,
                 button_hover: false,
-                cursor_color: undefined
+                cursor_color: undefined,
+                rightArrowProgress: 0,
+                rightArrowHover: false,
+                leftArrowProgress: 0,
+                leftArrowHover: false,
             }
         },
         watch: {
@@ -112,7 +137,64 @@ const ART_DATA = require("@/assets/art_data.json")
                     greyButton.style.width = this.viewArtButtonProgress + 'px';
                 }
             }
+            },
+            rightArrowProgress: {
+                handler(value) {
+                    if(value < 70) { // Note: value must be equal to button width
+                        setTimeout(() => {
+                        if(value >= 1 && this.rightArrowHover)
+                            this.rightArrowProgress++;
+                        }, 20);
+                    } else {
+                        setTimeout(() => {
+                        this.rightArrowProgress = 1;
+                        this.slide_right();
+                        }, 100);
+                    }
+                }
+            },
+            rightArrowHover: {
+                handler(value) {
+                    if(value == true) {
+                    this.rightArrowProgress = 1;
+                    } else {
+                    this.rightArrowProgress = 0;
+                    }
+                }
+            },
+            leftArrowProgress: {
+                handler(value) {
+                    if(value < 70) {
+                        setTimeout(() => {
+                        if(value >= 1 && this.leftArrowHover)
+                            this.leftArrowProgress++;
+                        }, 20);
+                    } else {
+                        setTimeout(() => {
+                        this.leftArrowProgress = 1;
+                        this.slide_left();
+                        }, 100);
+                    }
+                }
+            },
+            leftArrowHover: {
+                handler(value) {
+                    if(value == true) {
+                    this.leftArrowProgress = 1;
+                    } else {
+                    this.leftArrowProgress = 0;
+                    }
+                }
             }
+        },
+        methods: {
+            slide_left() {
+                this.$refs.artCarousel.prev();
+            },
+            slide_right() {
+                this.$refs.artCarousel.next();
+            },
+
         }
     } 
 
@@ -123,6 +205,11 @@ const ART_DATA = require("@/assets/art_data.json")
         display: flex;  
         align-items: center;
         justify-content: space-between;
+    }
+
+    .carousel {
+        width: 90%;
+        left: 5%;
     }
 
     .logo-container {
@@ -172,7 +259,7 @@ const ART_DATA = require("@/assets/art_data.json")
     }
 
     .alert-container {
-        margin-top: 0px;
+        margin-top: 15px;
         margin-bottom: 0px;
 
         width: auto;
@@ -197,7 +284,7 @@ const ART_DATA = require("@/assets/art_data.json")
         overflow: hidden;
         position: relative;
         width: 410px;
-        height: 450px;
+        min-height: 450px;
         margin-bottom: var(--dl-space-space-unit);
         margin-top: var(--dl-space-space-unit);
     }
@@ -234,9 +321,9 @@ const ART_DATA = require("@/assets/art_data.json")
     }
 
     .view-art-text {
-    position: relative;
-    z-index: 10;
-  }
+        position: relative;
+        z-index: 10;
+    }
 
     .view-button span {
         top: 0;
@@ -251,5 +338,30 @@ const ART_DATA = require("@/assets/art_data.json")
         z-index: 0 !important; 
     }
 
+    .slide-arrow {
+        position: absolute;
+        top: calc(50% - 100px) !important;
+        width: 70px;
+    }
+
+    .lightbox-nav {
+        width: 50px;
+        height: 50px;
+    }
+
+    .nav-left {
+        left: 10px;
+    }
+
+    .nav-right {
+        right: 10px;
+    }
+
+
 </style>
 
+<style>
+    .carousel__icon {
+        display: none !important;
+    }
+</style>

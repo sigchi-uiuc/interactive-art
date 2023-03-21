@@ -342,7 +342,7 @@ export default {
 }
 </script>
 
- <style scoped>
+ <style>
   .close-button {
     position: absolute;
     top: 0;
