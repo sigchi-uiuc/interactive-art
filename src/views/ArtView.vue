@@ -130,7 +130,7 @@ export default {
   watch: {
     rightArrowProgress: {
       handler(value) {
-          if(value < 100) {
+          if(value < 125) { // Note: value must be equal to button width
             setTimeout(() => {
               if(value >= 1 && this.rightArrowHover)
                 this.rightArrowProgress++;
@@ -154,7 +154,7 @@ export default {
     },
     leftArrowProgress: {
       handler(value) {
-          if(value < 100) {
+          if(value < 125) {
             setTimeout(() => {
               if(value >= 1 && this.leftArrowHover)
                 this.leftArrowProgress++;
@@ -178,7 +178,7 @@ export default {
     },
     closeButtonProgress: {
       handler(value) {
-          if(value < 100) {
+          if(value < 125) {
             setTimeout(() => {
               if(value >= 1 && this.closeButtonHover)
                 this.closeButtonProgress++;
@@ -349,8 +349,8 @@ export default {
     right: 0;
     z-index: 1;
 
-    width: 100px;
-    height: 100px;
+    width: 125px;
+    height: 125px;
     background-color: transparent;
     border-width: 0;
     background-size: contain;
@@ -367,8 +367,8 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
-    width: 100px;
-    height: 100px;
+    width: 125px;
+    height: 125px;
     border-radius: 50%;
     border-width: 5px;
     outline-color: lightgrey;
@@ -544,12 +544,12 @@ export default {
     display: flex;
   }
   .nav-left {
-    left: 30px;
+    left: 37px;
     background-image: url('@/assets/icons/left.svg');  
     pointer-events: none;
   }
   .nav-right {
-    right: 30px;
+    right: 37px;
     background-image: url('@/assets/icons/right.svg'); 
     pointer-events: none;
 
@@ -557,8 +557,10 @@ export default {
 
   .animated-progress {
     position: absolute;
-    width: 100px;
-    height: 300px;
+    width: 125px;
+    max-width: 10%;
+    height: 500px;
+    max-height: 50%;
     border-radius: 5px;
     border-width: 5px;
     outline-color: lightgrey;
@@ -567,12 +569,12 @@ export default {
   }
 
   .right-arrow-progress {
-    right: 10px;
+    right: -1px;
     
   }
 
   .left-arrow-progress {
-    left: 10px;
+    left: -1px;
     
   }
 
