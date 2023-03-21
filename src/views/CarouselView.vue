@@ -6,7 +6,7 @@
                     Melodic Eyes
                 </h1>
             </div>
-            <button class="learn-button" 
+            <button class="learn-button no-cursor" 
                 @:click="this.$router.push('about')"
                 @:mouseover="this.cursor_color = [255,255,255]"
                 @:mouseleave="this.cursor_color = undefined">
@@ -21,7 +21,7 @@
             </h2>
         </div>
 
-        <carousel ref="artCarousel" :itemsToShow="3" :transition="500">
+        <carousel ref="artCarousel" :itemsToShow="3" :transition="500" :wrapAround="true">
             <slide v-for="(item, index) in art_data" :key="item.file">
               <div class="card-container carousel__item">
                     <h3>{{item.title}}</h3>
@@ -29,10 +29,10 @@
                     <img class="car_img" :src="require(`@/assets/${item.file}`)">
                     <div class="card-content">
                         <p>{{item.artist + " - " + item.date}}</p>
-                        <button class="view-button" @:mouseover="viewArtButtonHover = true; artIndex = index; button_hover=true" 
+                        <button class="view-button no-cursor" @:mouseover="viewArtButtonHover = true; artIndex = index; button_hover=true" 
                                                     @:mouseleave="viewArtButtonHover = false; button_hover=false"
                                                     @:click="this.$router.push('/art-view/' + this.artIndex)">
-                            <span :id="'art/' + index"></span> <!--Grey button on hover-->
+                            <span :id="'art/' + index" :style="{ 'width': slideHoverProgress[index] + 'px' }"></span> <!--Grey button on hover-->
                             <div class="view-art-text"> View Art </div>
                         </button>
                     </div>
@@ -101,25 +101,22 @@ const ART_DATA = require("@/assets/art_data.json")
                 rightArrowHover: false,
                 leftArrowProgress: 0,
                 leftArrowHover: false,
+                slideHoverProgress: [0, 0, 0, 0, 0, 0]
             }
         },
         watch: {
             viewArtButtonProgress: {
                 handler(value) {
+                    this.slideHoverProgress[this.artIndex] = this.viewArtButtonProgress;
                     if(value < 100) {
                         setTimeout(() => {
                         if(value >= 1 && this.viewArtButtonHover)
                             this.viewArtButtonProgress++;
-                            let greyButton = document.getElementById('art/' + this.artIndex);
-                            greyButton.style.width = this.viewArtButtonProgress + 'px';
                         }, 20);
                     } else {
                         setTimeout(() => {
                         this.$router.push('/art-view/' + this.artIndex);
                         this.viewArtButtonProgress = 0;
-                        let greyButton = document.getElementById('art/' + this.artIndex);
-                        greyButton.style.width = this.viewArtButtonProgress + 'px';
-
                         }, 100);
                     }
                 }
@@ -127,15 +124,7 @@ const ART_DATA = require("@/assets/art_data.json")
 
             viewArtButtonHover: {
                 handler(value) {
-                if(value == true) {
-                    this.viewArtButtonProgress = 1;
-                    let greyButton = document.getElementById('art/' + this.artIndex);
-                    greyButton.style.width = this.viewArtButtonProgress + 'px';
-                } else {
-                    this.viewArtButtonProgress = 0;
-                    let greyButton = document.getElementById('art/' + this.artIndex);
-                    greyButton.style.width = this.viewArtButtonProgress + 'px';
-                }
+                    this.viewArtButtonProgress = value ? 1 : 0;
             }
             },
             rightArrowProgress: {
@@ -284,7 +273,7 @@ const ART_DATA = require("@/assets/art_data.json")
         overflow: hidden;
         position: relative;
         width: 410px;
-        min-height: 450px;
+        height: 450px;
         margin-bottom: var(--dl-space-space-unit);
         margin-top: var(--dl-space-space-unit);
     }
@@ -340,7 +329,7 @@ const ART_DATA = require("@/assets/art_data.json")
 
     .slide-arrow {
         position: absolute;
-        top: calc(50% - 100px) !important;
+        top: calc(50% - 120px) !important;
         width: 70px;
     }
 
