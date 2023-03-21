@@ -15,8 +15,8 @@
 
 <div class="about">
     <div class="info-1">
-        <h1>About SIGCHI</h1>
-        <p> SIGCHI is a Special Interest Group within ACM (Association of Computing Machinery), which focuses on Computer-Human Interaction. In weekly meetings (Tuesdays at 6pm), we learn about real-world examples of computer-human interaction in current technology, and then engage in discussions and work on our main project for this year: a tool that produces sound/music from an art/picture, depending on where a person is looking at the artwork. </p>
+        <h1>About SIGCHI @ UIUC</h1>
+        <p> SIGCHI@UIUC is a Special Interest Group focused on Computer-Human Interaction within ACM (Association of Computing Machinery) at the University of Illinois at Urbana-Champaign. In weekly meetings, we learn about real-world examples of computer-human interaction in current technology, engage in discussions, and work on our main project for the year: Melodic Eyes. </p>
         <br>
     </div>
 
@@ -25,14 +25,16 @@
     <div class="info-2">
         <img src="../assets/iart_demo.gif" alt="Art Demo">
         <div class="info-sub">
-            <h1> Project Details </h1>
-            <p> This project takes in human-interactive input via an eye tracker, uses the input to select an area of an image, and matches the average color of that area to a specific sound. To accomplish this, our SIG was divided into 4 sub-teams:</p>
-            <ul>
+            <h1> About 'Melodic Eyes' </h1>
+            <p> Experience art and music in a whole new way!  With 'Melodic Eyes', you can look at historic art pieces in a completely new light - or should we say, sound.  Using an eye tracker and an image-to-music algorithm, you control the music in this modern art exhibit! </p>
+            <p> At its core, Melodic Eyes is a tool that produces sound/music from an art piece, depending on where a person is looking at the artwork. This project takes in user-interactive input via an eye tracker, uses the input to determine the portion of the image being looked at, and matches the average color of that area to a specific sound. </p>
+            <p>To accomplish this, our SIG was divided into 2 sub-teams: UI and Infra. The UI team created this website and the logic behind the image-to-music algorithm.  The Infra team created a physical exhibit for Melodic Eyes that combines a monitor, eyetracker, and soundbar in an art frame.</p>
+            <!--<ul>
                 <li>Eye tracker functionality</li>
                 <li>User interface</li>
                 <li>Infra</li>
                 <li>Image-music conversion</li>
-            </ul>
+            </ul>-->
         </div>
         <br>
     </div>  
@@ -42,7 +44,7 @@
     <div class="info-6">
         <div class="info-sub6">
             <h1> Engineering Open House </h1>
-            <p> This project will be presented at the Engineering Open House (EOH) event at the University of Illinois at Urbana-Champaign. Exhibits are presented at the event on March 31st and April 1st, with around 35,000 expected attendees. This project will be presented at the Sidney Lu Mechanical Engineering Building.</p>
+            <p> This project will be presented at the 2023 Engineering Open House (EOH) event at the University of Illinois at Urbana-Champaign. EOH takes place on March 31st and April 1st, with around 35,000 expected attendees. Click the 'EOH' link below to learn more!</p>
         </div>
         <img src="../assets/eoh_logo.png" alt="EOH Logo">
         <br>
@@ -147,8 +149,8 @@ h4 {
 }
 
 .info-6 img {
-    width: 20%;
-    height: 20%;
+    width: 25%;
+    height: 25%;
     border-radius: 10px;
     margin-left: 5%;
     margin-right: 5%;
@@ -172,8 +174,8 @@ h4 {
 
 
 .info-2 img {
-    width: 18%;
-    height: 18%;
+    width: 25%;
+    height: 25%;
     border-radius: 10px;
     margin-left: 5%;
     margin-right: 5%;
