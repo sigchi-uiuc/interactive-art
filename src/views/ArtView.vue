@@ -45,13 +45,13 @@
     </div>
 
 
-    <button v-if="!music_started" class="start-button no-cursor"
+    <!-- <button v-if="!music_started" class="start-button no-cursor"
       @:mouseover="startButtonHover = true; button_hover = true" 
       @:mouseleave="startButtonHover = false; button_hover=false; cursor_color = undefined"
       @:click="start_viewing">
       <span :style="{ 'width': startButtonProgress + 'px' }"></span>
       <div class="start-text">Start</div>
-    </button>
+    </button> -->
     
     <cursor :color="cursor_color" :hover_on="button_hover"/>
   </div>
@@ -243,8 +243,10 @@ export default {
 
       const response = await axios.get(request_url)
       this.music_data = response.data
-      // initialize current note
-      this.current_note = this.music_data.sections[0].note
+      // initialize current note and color
+      var first_section = this.music_data.sections[0]
+      this.current_note = first_section.note
+      this.cursor_color = first_section.color
       // initialize bpm 
       this.bpm = this.music_data.bpm
       
@@ -277,12 +279,21 @@ export default {
         this.play_current_note()
         this.music_interval = setInterval(this.play_current_note, this.bpm_to_ms(this.bpm)) 
         this.painting_hover = true
+      } else if (!this.music_started) {
+        // for the user to start the music for the first hover
+        this.button_hover = true;
+        this.start_viewing()
       }
     }, 
 
     stop_music() {
-      clearInterval(this.music_interval)
-      this.painting_hover = false
+      if (this.music_started) {
+        clearInterval(this.music_interval)
+        this.painting_hover = false
+      } else {
+        // for the user to start the music for the first hover 
+        this.button_hover=false; this.cursor_color = undefined;
+      }
     },
 
     async start_viewing() { 
