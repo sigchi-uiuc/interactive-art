@@ -45,7 +45,7 @@
     </div>
 
     <div v-if="!music_started && !loading" class="start-info">
-      <alert text="Hover over the painting to load the music" />
+      <alert text="Hover over the painting to load the music" :transparency="0.95"/>
     </div>
 
     <!-- <button v-if="!music_started" class="start-button no-cursor"
