@@ -44,14 +44,9 @@
       </p>
     </div>
 
-
-    <button v-if="!music_started" class="start-button no-cursor"
-      @:mouseover="startButtonHover = true; button_hover = true" 
-      @:mouseleave="startButtonHover = false; button_hover=false; cursor_color = undefined"
-      @:click="start_viewing">
-      <span :style="{ 'width': startButtonProgress + 'px' }"></span>
-      <div class="start-text">Start</div>
-    </button>
+    <div v-if="!music_started && !loading" class="start-info">
+      <alert text="Hover over the painting to load the music" :transparency="0.95"/>
+    </div>
     
     <cursor :color="cursor_color" :hover_on="button_hover"/>
   </div>
@@ -63,6 +58,7 @@ import 'vue-loading-overlay/dist/css/index.css'
 import axios from 'axios'
 import PianoMp3 from 'tonejs-instrument-piano-mp3'
 import cursor from '@/components/cursor.vue'
+import alert from '@/components/alert.vue'
 
 const ART_DATA = require("@/assets/art_data.json")
 const BASE_URL = process.env.VUE_APP_BASE_URL
@@ -71,7 +67,8 @@ export default {
   name: 'ArtView',
   components: {
     Loading,
-    cursor
+    cursor,
+    alert
   },
   props: ['id'],
   data () {
@@ -243,8 +240,10 @@ export default {
 
       const response = await axios.get(request_url)
       this.music_data = response.data
-      // initialize current note
-      this.current_note = this.music_data.sections[0].note
+      // initialize current note and color
+      var first_section = this.music_data.sections[0]
+      this.current_note = first_section.note
+      this.cursor_color = first_section.color
       // initialize bpm 
       this.bpm = this.music_data.bpm
       
@@ -277,12 +276,21 @@ export default {
         this.play_current_note()
         this.music_interval = setInterval(this.play_current_note, this.bpm_to_ms(this.bpm)) 
         this.painting_hover = true
+      } else if (!this.music_started) {
+        // for the user to start the music for the first hover
+        this.button_hover = true;
+        this.start_viewing()
       }
     }, 
 
     stop_music() {
-      clearInterval(this.music_interval)
-      this.painting_hover = false
+      if (this.music_started) {
+        clearInterval(this.music_interval)
+        this.painting_hover = false
+      } else {
+        // for the user to start the music for the first hover 
+        this.button_hover=false; this.cursor_color = undefined;
+      }
     },
 
     async start_viewing() { 
@@ -422,39 +430,12 @@ export default {
     text-align: center;
     margin-bottom: var(--dl-space-space-twounits)
   }
-  
-  .start-button {
+
+  .start-info {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
-    background-color: white;
-    font-size: 16px;
-    width: 100px;
-    height: var(--dl-size-size-small);
-    border-width: 3px;
-    border-color: var(--dl-color-gray-500);
-    border-radius: var(--dl-radius-radius-radius8);
-    box-shadow: 0px 4px 2px 0px #595959;
-  }
-
-  .start-text {
-    position: relative;
-    z-index: 10;
-  }
-
-  .start-button span {
-    top: 0;
-    left: 0;
-    height: 100%;
-    max-width: 100%;
-    border-width: 3px;
-    border-radius: var(--dl-radius-radius-radius6);
-    display: block;
-    background: rgb(193, 193, 193);;
-    position: absolute;
-    z-index: 0 !important;
   }
 
   .arrow-box-right {
@@ -497,19 +478,6 @@ export default {
     border-radius: 20px;
   }
 
-  /*.lightbox-nav {
-    width: var(--dl-size-size-small);
-    height: var(--dl-size-size-small);
-    background-color: transparent;
-    border-width: 0;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-  }*/
-
   .arrow-box-right:hover {
     background-color: rgb(185, 185, 185);
   }
@@ -517,15 +485,7 @@ export default {
   .arrow-box-left:hover {
     background-color: rgb(185, 185, 185);
   }
-/*
-  .nav-left {
-    background-image: url('@/assets/icons/left.svg');  
-  }
 
-  .nav-right {
-    background-image: url('@/assets/icons/right.svg'); 
-  }
-*/
   .lightbox-nav {
     position: absolute;
     top: 50%;
