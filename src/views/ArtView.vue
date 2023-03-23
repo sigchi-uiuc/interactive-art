@@ -47,14 +47,6 @@
     <div v-if="!music_started && !loading" class="start-info">
       <alert text="Hover over the painting to load the music" :transparency="0.95"/>
     </div>
-
-    <!-- <button v-if="!music_started" class="start-button no-cursor"
-      @:mouseover="startButtonHover = true; button_hover = true" 
-      @:mouseleave="startButtonHover = false; button_hover=false; cursor_color = undefined"
-      @:click="start_viewing">
-      <span :style="{ 'width': startButtonProgress + 'px' }"></span>
-      <div class="start-text">Start</div>
-    </button> -->
     
     <cursor :color="cursor_color" :hover_on="button_hover"/>
   </div>
@@ -445,42 +437,6 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  
-  /*
-  .start-button {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    background-color: white;
-    font-size: 16px;
-    width: 100px;
-    height: var(--dl-size-size-small);
-    border-width: 3px;
-    border-color: var(--dl-color-gray-500);
-    border-radius: var(--dl-radius-radius-radius8);
-    box-shadow: 0px 4px 2px 0px #595959;
-  }
-
-  .start-text {
-    position: relative;
-    z-index: 10;
-  }
-
-  .start-button span {
-    top: 0;
-    left: 0;
-    height: 100%;
-    max-width: 100%;
-    border-width: 3px;
-    border-radius: var(--dl-radius-radius-radius6);
-    display: block;
-    background: rgb(193, 193, 193);;
-    position: absolute;
-    z-index: 0 !important;
-  }
-  */
 
   .arrow-box-right {
     width: 100px;
@@ -522,19 +478,6 @@ export default {
     border-radius: 20px;
   }
 
-  /*.lightbox-nav {
-    width: var(--dl-size-size-small);
-    height: var(--dl-size-size-small);
-    background-color: transparent;
-    border-width: 0;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-  }*/
-
   .arrow-box-right:hover {
     background-color: rgb(185, 185, 185);
   }
@@ -542,15 +485,7 @@ export default {
   .arrow-box-left:hover {
     background-color: rgb(185, 185, 185);
   }
-/*
-  .nav-left {
-    background-image: url('@/assets/icons/left.svg');  
-  }
 
-  .nav-right {
-    background-image: url('@/assets/icons/right.svg'); 
-  }
-*/
   .lightbox-nav {
     position: absolute;
     top: 50%;
