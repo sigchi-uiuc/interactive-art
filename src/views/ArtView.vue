@@ -44,6 +44,9 @@
       </p>
     </div>
 
+    <div v-if="!music_started && !loading" class="start-info">
+      <alert text="Hover over the painting to load the music" />
+    </div>
 
     <!-- <button v-if="!music_started" class="start-button no-cursor"
       @:mouseover="startButtonHover = true; button_hover = true" 
@@ -63,6 +66,7 @@ import 'vue-loading-overlay/dist/css/index.css'
 import axios from 'axios'
 import PianoMp3 from 'tonejs-instrument-piano-mp3'
 import cursor from '@/components/cursor.vue'
+import alert from '@/components/alert.vue'
 
 const ART_DATA = require("@/assets/art_data.json")
 const BASE_URL = process.env.VUE_APP_BASE_URL
@@ -71,7 +75,8 @@ export default {
   name: 'ArtView',
   components: {
     Loading,
-    cursor
+    cursor,
+    alert
   },
   props: ['id'],
   data () {
@@ -433,7 +438,15 @@ export default {
     text-align: center;
     margin-bottom: var(--dl-space-space-twounits)
   }
+
+  .start-info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
   
+  /*
   .start-button {
     position: absolute;
     top: 50%;
@@ -467,6 +480,7 @@ export default {
     position: absolute;
     z-index: 0 !important;
   }
+  */
 
   .arrow-box-right {
     width: 100px;
