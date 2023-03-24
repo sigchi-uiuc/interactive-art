@@ -25,13 +25,14 @@
             <slide v-for="(item, index) in art_data" :key="item.file">
               <div class="card-container carousel__item"
                     @:mouseover="viewArtButtonHover = true; artIndex = index; button_hover=true" 
-                    @:mouseleave="viewArtButtonHover = false; button_hover=false">
+                    @:mouseleave="viewArtButtonHover = false; button_hover=false"
+                    @:click="this.$router.push('/art-view/' + this.artIndex)">
                     <h3>{{item.title}}</h3>
 
                     <img class="car_img" :src="require(`@/assets/${item.file}`)">
                     <div class="card-content">
                         <p>{{item.artist + " - " + item.date}}</p>
-                        <button class="view-button no-cursor" @:click="this.$router.push('/art-view/' + this.artIndex)">
+                        <button class="view-button no-cursor">
                             <span :id="'art/' + index" :style="{ 'width': slideHoverProgress[index] + 'px' }"></span> <!--Grey button on hover-->
                             <div class="view-art-text"> View Art </div>
                         </button>
@@ -112,7 +113,7 @@ const ART_DATA = require("@/assets/art_data.json")
                         setTimeout(() => {
                         if(value >= 1 && this.viewArtButtonHover)
                             this.viewArtButtonProgress++;
-                        }, 20);
+                        }, 35);
                     } else {
                         setTimeout(() => {
                         this.$router.push('/art-view/' + this.artIndex);
