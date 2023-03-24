@@ -15,7 +15,7 @@ cache_config = {
     "CACHE_DIR": CACHE_DIR
 }
 
-NUM_SECTIONS = 8
+NUM_SECTIONS = 48
 MAX_ENTROPY = 8.0
 MIN_ENTROPY = 7.3
 MAX_LUM = 130
@@ -34,6 +34,7 @@ def api():
 @app.route('/coords/<image>/<int:width>/<int:height>/')
 def get_notes(image, width, height):
     start = time.time()
+    print("num sections", NUM_SECTIONS)
 
     # get primary color from each section of the image
     # it will be cached if a given image has been seen before with the same number of sections
