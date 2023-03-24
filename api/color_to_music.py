@@ -3,7 +3,7 @@ import numpy as np
 from util import convert_range
 
 class Color2Music:
-    MAX_BPM = 160
+    MAX_BPM = 80
     MIN_BPM = 40
     MIN_OCTAVE = 3
     MAX_OCTAVE = 5

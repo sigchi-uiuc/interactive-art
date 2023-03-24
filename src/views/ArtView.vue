@@ -240,6 +240,8 @@ export default {
 
       const response = await axios.get(request_url)
       this.music_data = response.data
+      console.log(`number of sections: ${this.music_data.sections.length}`)
+
       // initialize current note and color
       var first_section = this.music_data.sections[0]
       this.current_note = first_section.note
