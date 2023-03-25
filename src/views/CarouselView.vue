@@ -6,12 +6,12 @@
                     Melodic Eyes
                 </h1>
             </div>
-            <button class="learn-button no-cursor" 
+            <!-- <button class="learn-button no-cursor" 
                 @:click="this.$router.push('about')"
                 @:mouseover="this.cursor_color = [255,255,255]"
                 @:mouseleave="this.cursor_color = undefined">
                 Learn More
-            </button>
+            </button> -->
         </div>
         <hr class="divider">
 
@@ -45,9 +45,9 @@
             </template>
           </carousel>
 
-        <div class="alert-container">
+        <!-- <div class="alert-container">
             <alert :alert_height="25"> </alert>
-        </div>
+        </div> -->
 
         <div class="animated-progress left-arrow-progress slide-arrow" 
             @:mouseover="leftArrowHover = true; button_hover = true"                   
