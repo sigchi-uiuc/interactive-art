@@ -177,7 +177,7 @@ export default {
     },
     closeButtonProgress: {
       handler(value) {
-          if(value < 125) {
+          if(value < 128) {
             setTimeout(() => {
               if(value >= 1 && this.closeButtonHover)
                 this.closeButtonProgress++;
@@ -371,7 +371,6 @@ export default {
     align-items: center;
     justify-content: center;
     display: flex;
-    margin: var(--dl-space-space-unit);
     background-image: url('@/assets/icons/exit.svg');
     pointer-events: none;
   }
@@ -382,11 +381,10 @@ export default {
     right: 0;
     width: 125px;
     height: 125px;
-    border-radius: 50%;
+    border-radius: 5px;
     border-width: 5px;
     outline-color: lightgrey;
     outline-width: 1px;
-    margin: var(--dl-space-space-unit);
     outline-style: solid;
   }
 
@@ -395,7 +393,7 @@ export default {
     margin: 50%;
     display: block;
     background: rgb(117, 117, 117);
-    border-radius: 50%;
+    border-radius: 5px;
     transform: translate(-50%, -50%);
     position: absolute;
   }
