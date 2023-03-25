@@ -133,7 +133,7 @@ export default {
             setTimeout(() => {
               if(value >= 1 && this.rightArrowHover)
                 this.rightArrowProgress++;
-            }, 20);
+            }, 15);
           } else {
             setTimeout(() => {
               this.rightArrowProgress = 1;
@@ -157,7 +157,7 @@ export default {
             setTimeout(() => {
               if(value >= 1 && this.leftArrowHover)
                 this.leftArrowProgress++;
-            }, 20);
+            }, 15);
           } else {
             setTimeout(() => {
               this.leftArrowProgress = 1;
@@ -181,7 +181,7 @@ export default {
             setTimeout(() => {
               if(value >= 1 && this.closeButtonHover)
                 this.closeButtonProgress++;
-            }, 20);
+            }, 15);
           } else {
             setTimeout(() => {
               this.$router.push({name: 'home'});
