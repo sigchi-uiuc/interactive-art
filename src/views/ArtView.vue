@@ -99,8 +99,10 @@ export default {
     }
   },
   created() {
-    if(this.id != null)
-      this.image_index = this.id
+    if(this.id != null) {
+      console.log(`id: ${this.id}`)
+      this.image_index = parseInt(this.id)
+    }
   },
 
   mounted() {
@@ -330,6 +332,7 @@ export default {
     },
 
     calc_index(n, m) {
+
       return ((n % m) + m) % m
     },
 

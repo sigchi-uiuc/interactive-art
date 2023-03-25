@@ -102,7 +102,7 @@ const ART_DATA = require("@/assets/art_data.json")
                 rightArrowHover: false,
                 leftArrowProgress: 0,
                 leftArrowHover: false,
-                slideHoverProgress: [0, 0, 0, 0, 0, 0]
+                slideHoverProgress: new Array(ART_DATA.length).fill(0)
             }
         },
         watch: {
