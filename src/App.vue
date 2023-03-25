@@ -10,6 +10,7 @@
   text-align: center;
   color: #2c3e50;
   cursor: none;
+  height: 100vh;
 }
 
 .no-cursor:hover {
@@ -64,5 +65,6 @@ nav a.router-link-exact-active {
   --dl-space-space-fourunits: 64px;
   --dl-space-space-threeunits: 48px;
   --dl-space-space-oneandhalfunits: 24px;
+  scrollbar-width: none;
 }
 </style>

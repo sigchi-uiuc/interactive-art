@@ -130,7 +130,7 @@ const ART_DATA = require("@/assets/art_data.json")
             },
             rightArrowProgress: {
                 handler(value) {
-                    if(value < 70) { // Note: value must be equal to button width
+                    if(value < 100) { // Note: value must be equal to button width
                         setTimeout(() => {
                         if(value >= 1 && this.rightArrowHover)
                             this.rightArrowProgress++;
@@ -154,7 +154,7 @@ const ART_DATA = require("@/assets/art_data.json")
             },
             leftArrowProgress: {
                 handler(value) {
-                    if(value < 70) {
+                    if(value < 100) {
                         setTimeout(() => {
                         if(value >= 1 && this.leftArrowHover)
                             this.leftArrowProgress++;
@@ -275,9 +275,16 @@ const ART_DATA = require("@/assets/art_data.json")
         position: relative;
         width: 410px;
         height: 450px;
-        margin-bottom: var(--dl-space-space-unit);
-        margin-top: var(--dl-space-space-unit);
+        margin-bottom: var(--dl-space-space-twounits);
+        margin-top: var(--dl-space-space-twounits);
+
+        transition: all .2s ease-in-out;
     }
+
+    .card-container:hover {
+        transform: scale(1.1);
+    }
+
     .car_img {
         object-fit: cover;
         height: 70%;
@@ -318,7 +325,7 @@ const ART_DATA = require("@/assets/art_data.json")
     .view-button span {
         top: 0;
         left: 0;
-        height: 100%;
+        height: 102%;
         max-width: 100%;
         border-width: 3px;
         border-radius: var(--dl-radius-radius-radius6);
@@ -330,9 +337,9 @@ const ART_DATA = require("@/assets/art_data.json")
 
     .slide-arrow {
         position: absolute;
-        top: calc(210px) !important;
+        top: calc(205px) !important;
         
-        width: 70px;
+        width: 100px;
     }
 
     .lightbox-nav {
@@ -341,11 +348,11 @@ const ART_DATA = require("@/assets/art_data.json")
     }
 
     .nav-left {
-        left: 10px;
+        left: 20px;
     }
 
     .nav-right {
-        right: 10px;
+        right: 20px;
     }
 
 
