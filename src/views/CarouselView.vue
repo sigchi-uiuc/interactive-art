@@ -102,16 +102,18 @@ const ART_DATA = require("@/assets/art_data.json")
                 rightArrowHover: false,
                 leftArrowProgress: 0,
                 leftArrowHover: false,
-                slideHoverProgress: new Array(ART_DATA.length).fill(0)
+                slideHoverProgress: new Array(ART_DATA.length).fill(0),
+                currIndex: 0
             }
         },
         watch: {
             viewArtButtonProgress: {
                 handler(value) {
                     this.slideHoverProgress[this.artIndex] = this.viewArtButtonProgress;
+                    let temp = this.currIndex;
                     if(value < 100) {
                         setTimeout(() => {
-                        if(value >= 1 && this.viewArtButtonHover)
+                        if(value >= 1 && this.viewArtButtonHover && temp == this.currIndex)
                             this.viewArtButtonProgress++;
                         }, 35);
                     } else {
@@ -125,6 +127,7 @@ const ART_DATA = require("@/assets/art_data.json")
 
             viewArtButtonHover: {
                 handler(value) {
+                    this.currIndex = this.artIndex;
                     this.viewArtButtonProgress = value ? 1 : 0;
             }
             },
